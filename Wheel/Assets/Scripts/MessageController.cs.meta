@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: cc0df6504d9bf50438cd6c4ff4987df1
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - prefabRightWheels: {fileID: 4027267932426729119, guid: 438b156e9b8c2444bb6d0b413cdfe28b,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
