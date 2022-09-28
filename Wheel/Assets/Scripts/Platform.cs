@@ -4,29 +4,23 @@ using UnityEngine;
 
 public class Platform : MonoBehaviour
 {
-    public float maxTorque = 60;
-    public float speed = 10;
-    public Rigidbody rb;
-    public WheelCollider frontRightWheel;
-    public WheelCollider frontLeftWheel;
-    public WheelCollider rearRightWheel;
-    public WheelCollider rearLeftWheel;
-    public Transform frontRightTransform;
-    public Transform frontLeftTransform;
-    public Transform rearRightTransfrom;
-    public Transform rearLeftTransform;
-    public GameObject leftWheels;
-    public GameObject rightWheels;
-    public Transform leftSpawnPoint;
-    public Transform rightSpawnPoint;
+    public float maxMotorTorque;
+    public float currentSpeed;
+    public float maxSpeed;
+    public WheelCollider[] leftWheelsCollider;
+    public WheelCollider[] rightWheelsCollider;
+    public Transform[] leftWheelsTransform;
+    public Transform[] rightWheelsTransform;
 
     private float _verticalInput;
     private float _horizontalInput;
+    private float _rightSteer;
+    private float _leftSteer;
 
     private void FixedUpdate()
     {
         GetInput();
-        Accelerate();
+        Drive();
         UpdateAllWheelPoses();
     }
 
@@ -36,59 +30,79 @@ public class Platform : MonoBehaviour
         _verticalInput = Input.GetAxis("Vertical");
     }
 
-    private void Accelerate()
+    private void Drive()
     {
-        if (_horizontalInput != 0 && _verticalInput == 0)
+        currentSpeed = 2 * Mathf.PI * rightWheelsCollider[0].radius * rightWheelsCollider[0].rpm * 60 / 1000;
+
+        if (currentSpeed < maxSpeed)
         {
-            if (_horizontalInput < 0) //left steer
+            if (_horizontalInput != 0 && _verticalInput == 0)
             {
-                speed = 10;
-                frontLeftWheel.motorTorque = maxTorque * _horizontalInput * speed;
-                rearLeftWheel.motorTorque = maxTorque * _horizontalInput * speed;
-                frontRightWheel.motorTorque = -maxTorque * _horizontalInput * speed;
-                rearRightWheel.motorTorque = -maxTorque * _horizontalInput * speed;
+                if (_horizontalInput < 0)
+                {
+                    foreach (WheelCollider wheel in rightWheelsCollider)
+                    {
+                        wheel.motorTorque = -maxMotorTorque * Time.deltaTime * _horizontalInput * 100;
+                    }
+                    foreach (WheelCollider wheel in leftWheelsCollider)
+                    {
+                        wheel.motorTorque = maxMotorTorque * Time.deltaTime * _horizontalInput * 100;
+                    }
+                }
+                else if (_horizontalInput > 0)
+                {
+                    foreach (WheelCollider wheel in rightWheelsCollider)
+                    {
+                        wheel.motorTorque = -maxMotorTorque * Time.deltaTime * _horizontalInput * 100;
+                    }
+                    foreach (WheelCollider wheel in leftWheelsCollider)
+                    {
+                        wheel.motorTorque = maxMotorTorque * Time.deltaTime * _horizontalInput * 100;
+                    }
+                }
+                else
+                {
+                    foreach (WheelCollider wheel in rightWheelsCollider)
+                    {
+                        wheel.motorTorque = 0;
+                    }
+                    foreach (WheelCollider wheel in leftWheelsCollider)
+                    {
+                        wheel.motorTorque = 0;
+                    }
+                }
             }
-            else if (_horizontalInput > 0) //right steer
+            else if (_verticalInput != 0 && _horizontalInput == 0)
             {
-                speed = 10;
-                frontRightWheel.motorTorque = -maxTorque * _horizontalInput * speed;
-                rearRightWheel.motorTorque = -maxTorque * _horizontalInput * speed;
-                frontLeftWheel.motorTorque = maxTorque * _horizontalInput * speed;
-                rearLeftWheel.motorTorque = maxTorque * _horizontalInput * speed;
+                foreach (WheelCollider wheel in rightWheelsCollider)
+                {
+                    wheel.motorTorque = maxMotorTorque * Time.deltaTime * _verticalInput * 50;
+                }
+                foreach (WheelCollider wheel in leftWheelsCollider)
+                {
+                    wheel.motorTorque = maxMotorTorque * Time.deltaTime * _verticalInput * 50;
+                }
             }
             else
             {
-                speed = 0;
-                frontLeftWheel.motorTorque = maxTorque * speed;
-                rearLeftWheel.motorTorque = maxTorque * speed;
-                frontRightWheel.motorTorque = -maxTorque * speed;
-                rearRightWheel.motorTorque = -maxTorque * speed;
+                foreach (WheelCollider wheel in rightWheelsCollider)
+                {
+                    wheel.motorTorque = 0;
+                }
+                foreach (WheelCollider wheel in leftWheelsCollider)
+                {
+                    wheel.motorTorque = 0;
+                }
             }
-        }
-        else if (_verticalInput != 0 && _horizontalInput == 0)
-        {
-            speed = 10;
-            frontLeftWheel.motorTorque = maxTorque * _verticalInput * speed;
-            frontRightWheel.motorTorque = maxTorque * _verticalInput * speed;
-            rearLeftWheel.motorTorque = maxTorque * _verticalInput * speed;
-            rearRightWheel.motorTorque = maxTorque * _verticalInput * speed;
-        }
-        else
-        {
-            speed = 0;
-            frontLeftWheel.motorTorque = maxTorque * _verticalInput * speed;
-            frontRightWheel.motorTorque = maxTorque * _verticalInput * speed;
-            rearLeftWheel.motorTorque = maxTorque * _verticalInput * speed;
-            rearRightWheel.motorTorque = maxTorque * _verticalInput * speed;
         }
     }
 
     private void UpdateAllWheelPoses()
     {
-        UpdateWheelPose(frontLeftWheel, frontLeftTransform);
-        UpdateWheelPose(frontRightWheel, frontRightTransform);
-        UpdateWheelPose(rearLeftWheel, rearLeftTransform);
-        UpdateWheelPose(rearRightWheel, rearRightTransfrom);
+        UpdateWheelPose(rightWheelsCollider[0], rightWheelsTransform[0]);
+        UpdateWheelPose(rightWheelsCollider[1], rightWheelsTransform[1]);
+        UpdateWheelPose(leftWheelsCollider[0], leftWheelsTransform[0]);
+        UpdateWheelPose(leftWheelsCollider[1], leftWheelsTransform[1]);
     }
 
     private void UpdateWheelPose(WheelCollider wheelCollider, Transform wheelTransform)
@@ -98,10 +112,5 @@ public class Platform : MonoBehaviour
         wheelCollider.GetWorldPose(out pos, out rot);
         wheelTransform.position = pos;
         wheelTransform.rotation = rot;
-    }
-
-    public void PrintData(float speed, float time, Vector3 direction)
-    {
-        Debug.Log($"Speed: {speed}, Time: {time}, Direction: {direction}");
     }
 }

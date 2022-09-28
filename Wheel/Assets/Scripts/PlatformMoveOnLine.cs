@@ -7,6 +7,7 @@ using UnityEngine.Experimental.GlobalIllumination;
 public class PlatformMoveOnLine : MonoBehaviour
 {
     public float maxMotorTorque = 250f;
+    public float maxBrakeTorque = 20000f;
     public float currentSpeed;
     public float maxSpeed = 30f;
     public WheelCollider[] rightWheelsCollider;
@@ -15,28 +16,30 @@ public class PlatformMoveOnLine : MonoBehaviour
     public Transform[] leftWheelsTransform;
     public IKSensor[] _IKsensors;
 
-    private float _rightSteer = 10;
-    private float _leftSteer = 10;
+    private float _rightSteer;
+    private float _leftSteer;
+    private float _maxRightSteer = 100;
+    private float _minRightSteer = 0;
+
 
     private void FixedUpdate()
     {
         Drive();
-        UpdateAllWheelPose();
         ApplySteer();
+        UpdateAllWheelPose();
     }
 
     private void ApplySteer()
     {
-
         if (_IKsensors[0].grayScale < _IKsensors[1].grayScale)
         {
-            _rightSteer = 100;
-            _leftSteer = 0;
+            _rightSteer = _maxRightSteer * _IKsensors[0].grayScale;
+            _leftSteer = _minRightSteer;
         }
-        else
+        else if(_IKsensors[0].grayScale > _IKsensors[1].grayScale)
         {
-            _rightSteer = 0;
-            _leftSteer = 100;
+            _rightSteer = _minRightSteer;
+            _leftSteer = _maxRightSteer * _IKsensors[1].grayScale;
         }
     }
 

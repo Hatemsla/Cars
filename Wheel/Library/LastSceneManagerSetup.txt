@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/UZ.unity
+- path: Assets/Scenes/PlatformMaze.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
