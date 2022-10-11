@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1459110339523588994
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4296906148101761097}
+  m_Layer: 0
+  m_Name: UZLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4296906148101761097
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459110339523588994}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -3.5, y: 5, z: -7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4326485610287768656}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &4326485608843096562
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,6 +523,8 @@ Transform:
   - {fileID: 5446058937705675633}
   - {fileID: 168767151868458460}
   - {fileID: 2641091183730961005}
+  - {fileID: 2698833920431750609}
+  - {fileID: 4296906148101761097}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -528,15 +560,14 @@ MonoBehaviour:
   maxBrakeTorque: 20000
   currentSpeed: 0
   maxSpeed: 30
+  isBrake: 0
   rightWheelsCollider: []
   leftWheelsCollider: []
   rightWheelsTransform: []
   leftWheelsTransform: []
   UZForward: {fileID: 0}
   UZRight: {fileID: 0}
-  UZBackward: {fileID: 0}
   UZLeft: {fileID: 0}
-  _isBrake: 0
 --- !u!1 &5680849409888804045
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,7 +608,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5446058937705675633}
   m_Layer: 0
-  m_Name: UZLeft
+  m_Name: UZSideLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -591,7 +622,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7060109318491579064}
   m_LocalRotation: {x: 0, y: -0.38268343, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: -3.75, y: 5, z: -0.2}
+  m_LocalPosition: {x: -3.5, y: 5, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4326485610287768656}
@@ -607,7 +638,7 @@ GameObject:
   m_Component:
   - component: {fileID: 168767151868458460}
   m_Layer: 0
-  m_Name: UZRight
+  m_Name: UZSideRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -627,6 +658,36 @@ Transform:
   m_Father: {fileID: 4326485610287768656}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
+--- !u!1 &8751726826575646264
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2698833920431750609}
+  m_Layer: 0
+  m_Name: UZRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2698833920431750609
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8751726826575646264}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 4.5, y: 5, z: -7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4326485610287768656}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1001 &4326485608856306889
 PrefabInstance:
   m_ObjectHideFlags: 0

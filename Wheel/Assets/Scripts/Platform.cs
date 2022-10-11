@@ -16,6 +16,12 @@ public class Platform : MonoBehaviour
     private float _horizontalInput;
     private float _rightSteer;
     private float _leftSteer;
+    private Rigidbody _rb;
+
+    private void Start()
+    {
+        _rb = GetComponent<Rigidbody>();
+    }
 
     private void FixedUpdate()
     {
@@ -33,11 +39,11 @@ public class Platform : MonoBehaviour
     private void Drive()
     {
         currentSpeed = 2 * Mathf.PI * rightWheelsCollider[0].radius * rightWheelsCollider[0].rpm * 60 / 1000;
-
         if (currentSpeed < maxSpeed)
         {
             if (_horizontalInput != 0 && _verticalInput == 0)
             {
+                _rb.drag = 0;
                 if (_horizontalInput < 0)
                 {
                     foreach (WheelCollider wheel in rightWheelsCollider)
@@ -74,6 +80,7 @@ public class Platform : MonoBehaviour
             }
             else if (_verticalInput != 0 && _horizontalInput == 0)
             {
+                _rb.drag = 0;
                 foreach (WheelCollider wheel in rightWheelsCollider)
                 {
                     wheel.motorTorque = maxMotorTorque * Time.deltaTime * _verticalInput * 50;
@@ -83,8 +90,35 @@ public class Platform : MonoBehaviour
                     wheel.motorTorque = maxMotorTorque * Time.deltaTime * _verticalInput * 50;
                 }
             }
+            else if (_verticalInput != 0 && _horizontalInput != 0)
+            {
+                _rb.drag = 0;
+                if (_horizontalInput < 0)
+                {
+                    foreach (WheelCollider wheel in rightWheelsCollider)
+                    {
+                        wheel.motorTorque = maxMotorTorque * Time.deltaTime * _verticalInput * 100;
+                    }
+                    foreach (WheelCollider wheel in leftWheelsCollider)
+                    {
+                        wheel.motorTorque = maxMotorTorque * Time.deltaTime * _verticalInput * 50;
+                    }
+                }
+                else if (_horizontalInput > 0)
+                {
+                    foreach (WheelCollider wheel in rightWheelsCollider)
+                    {
+                        wheel.motorTorque = maxMotorTorque * Time.deltaTime * _verticalInput * 50;
+                    }
+                    foreach (WheelCollider wheel in leftWheelsCollider)
+                    {
+                        wheel.motorTorque = maxMotorTorque * Time.deltaTime * _verticalInput * 100;
+                    }
+                }
+            }
             else
             {
+                _rb.drag = 5;
                 foreach (WheelCollider wheel in rightWheelsCollider)
                 {
                     wheel.motorTorque = 0;
@@ -93,6 +127,18 @@ public class Platform : MonoBehaviour
                 {
                     wheel.motorTorque = 0;
                 }
+            }
+        }
+        else
+        {
+            _rb.drag = 0;
+            foreach (WheelCollider wheel in rightWheelsCollider)
+            {
+                wheel.motorTorque = 0;
+            }
+            foreach (WheelCollider wheel in leftWheelsCollider)
+            {
+                wheel.motorTorque = 0;
             }
         }
     }
