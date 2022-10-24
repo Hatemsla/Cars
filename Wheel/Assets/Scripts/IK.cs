@@ -29,9 +29,9 @@ public class IK : MonoBehaviour
             color = texture.GetPixelBilinear(hit.textureCoord2.x, hit.textureCoord2.y);
             Debug.DrawLine(obj.transform.position, hit.point);
         }
-        CheckMove();
         Image.color = color;
         Shade.text = Convert(color.grayscale, 0, 1, 4095, 0).ToString();
+        CheckMove();
     }
 
     public float Convert(float value, float From1, float From2, float To1, float To2)

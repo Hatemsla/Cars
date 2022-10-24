@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.CrashReportHandler;
 
 public class PlatformMoveInMaze : MonoBehaviour
 {
@@ -9,7 +10,18 @@ public class PlatformMoveInMaze : MonoBehaviour
     public float maxBrakeTorque = 20000f;
     public float currentSpeed;
     public float maxSpeed = 30f;
+    public float error;
+    public float errorOld;
+    public float proportionalGain;
+    public float integralGain;
+    public float derivativeGain;
+    public float powerR, powerL;
+    public float steer;
+    public float forwardUZDistance, rightSideUZDistance, leftSideUZDistance,
+        rightUZDistance, leftUZDistance;
+    public float newError;
     public bool isBrake;
+    public bool isStop;
     public WheelCollider[] rightWheelsCollider;
     public WheelCollider[] leftWheelsCollider;
     public Transform[] rightWheelsTransform;
@@ -20,14 +32,20 @@ public class PlatformMoveInMaze : MonoBehaviour
     public UZSensor UZRight;
     public UZSensor UZLeft;
 
-    private const float MaxForwardDistance = 40f;
+    private const float MinForwardDistance = 50f;
+    private const float MinDistance = 40;
     private const float MinSideDistance = 15f;
     private float _steerMultiply = 100;
-    private float _moveMultiplay = 10;
 
     private void Update()
     {
         UpdateAllWheelPose();
+
+        forwardUZDistance = UZForward.distance;
+        leftSideUZDistance = UZSideLeft.distance;
+        rightSideUZDistance = UZSideRight.distance;
+        leftUZDistance = UZLeft.distance;
+        rightUZDistance = UZRight.distance;
     }
 
     private void FixedUpdate()
@@ -36,108 +54,78 @@ public class PlatformMoveInMaze : MonoBehaviour
         Brake();
     }
 
+    private void CalcPID(float leftDisatnce, float rightDistance)
+    {
+        error = (leftDisatnce - rightDistance);
+        steer += error;
+        steer = steer < -0.1f ? -0.1f : 0.1f;
+
+        newError = error - errorOld;
+
+        powerL = maxMotorTorque - (proportionalGain * error + derivativeGain * (error - errorOld) + integralGain * steer);
+        powerR = maxMotorTorque + (proportionalGain * error + derivativeGain * (error - errorOld) + integralGain * steer);
+
+        errorOld = error;
+    }
+
     private void Drive()
     {
         currentSpeed = 2 * Mathf.PI * rightWheelsCollider[0].radius * rightWheelsCollider[0].rpm * 60 / 1000;
-        float speed = maxMotorTorque * Time.deltaTime * _steerMultiply;
 
-        if (currentSpeed < maxSpeed)
+        
+
+        if(UZForward.distance > MinForwardDistance)
         {
-            if (UZForward.distance >= MaxForwardDistance)
+            if (UZSideLeft.distance < MinSideDistance || UZSideRight.distance < MinSideDistance)
             {
-                foreach (WheelCollider wheel in rightWheelsCollider)
-                {
-                    wheel.motorTorque = maxMotorTorque * Time.deltaTime * _moveMultiplay;
-                }
-                foreach (WheelCollider wheel in leftWheelsCollider)
-                {
-                    wheel.motorTorque = maxMotorTorque * Time.deltaTime * _moveMultiplay;
-                }
+                CalcPID(UZSideLeft.distance, UZSideRight.distance);
             }
-            else if (UZRight.distance > UZLeft.distance)
-            {
-                if (UZSideLeft.distance < MinSideDistance)
-                {
-                    foreach (WheelCollider wheel in rightWheelsCollider)
-                    {
-                        wheel.motorTorque = -speed * 10;
-                    }
-                    foreach (WheelCollider wheel in leftWheelsCollider)
-                    {
-                        wheel.motorTorque = speed * 10;
-                    }
-                }
-                else
-                {
-                    foreach (WheelCollider wheel in rightWheelsCollider)
-                    {
-                        wheel.motorTorque = -speed;
-                    }
-                    foreach (WheelCollider wheel in leftWheelsCollider)
-                    {
-                        wheel.motorTorque = speed;
-                    }
-                }
+            else
+            {   
+                CalcPID(0, 0);
             }
-            else if (UZLeft.distance > UZRight.distance)
+        }
+        else if(UZLeft.distance > UZRight.distance || UZLeft.distance < UZRight.distance)
+        {
+            if (UZSideLeft.distance < MinSideDistance || UZSideRight.distance < MinSideDistance)
             {
-                if (UZSideLeft.distance < MinSideDistance)
-                {
-                    foreach (WheelCollider wheel in rightWheelsCollider)
-                    {
-                        wheel.motorTorque = speed * 10;
-                    }
-                    foreach (WheelCollider wheel in leftWheelsCollider)
-                    {
-                        wheel.motorTorque = -speed * 10;
-                    }
-                }
-                else
-                {
-                    foreach (WheelCollider wheel in rightWheelsCollider)
-                    {
-                        wheel.motorTorque = speed;
-                    }
-                    foreach (WheelCollider wheel in leftWheelsCollider)
-                    {
-                        wheel.motorTorque = -speed;
-                    }
-                }
+                CalcPID(UZSideLeft.distance, UZSideRight.distance);
             }
             else
             {
-                foreach (WheelCollider wheel in rightWheelsCollider)
-                {
-                    wheel.motorTorque = -speed;
-                }
-                foreach (WheelCollider wheel in leftWheelsCollider)
-                {
-                    wheel.motorTorque = speed;
-                }
+                CalcPID(UZLeft.distance, UZRight.distance);
             }
+        }
+        else
+        {
+            CalcPID(UZLeft.distance, UZRight.distance);
+        }
 
-            if (UZSideLeft.distance < MinSideDistance)
-            {
-                foreach (WheelCollider wheel in rightWheelsCollider)
-                {
-                    wheel.motorTorque = -speed;
-                }
-                foreach (WheelCollider wheel in leftWheelsCollider)
-                {
-                    wheel.motorTorque = speed;
-                }
-            }
-            else if (UZSideRight.distance < MinSideDistance)
-            {
-                foreach (WheelCollider wheel in rightWheelsCollider)
-                {
-                    wheel.motorTorque = speed;
-                }
-                foreach (WheelCollider wheel in leftWheelsCollider)
-                {
-                    wheel.motorTorque = -speed;
-                }
-            }
+        if (UZSideLeft.distance < MinSideDistance || UZSideRight.distance < MinSideDistance)
+        {
+            CalcPID(UZSideLeft.distance, UZSideRight.distance);
+        }
+
+        RobotMove();
+    }
+
+    public IEnumerator Stop()
+    {
+        isStop = false;
+        isBrake = true;
+        yield return new WaitForSeconds(0.2f);
+        isBrake = false;
+    }
+
+    private void RobotMove()
+    {
+        foreach (WheelCollider wheel in rightWheelsCollider)
+        {
+            wheel.motorTorque = powerR;
+        }
+        foreach (WheelCollider wheel in leftWheelsCollider)
+        {
+            wheel.motorTorque = powerL;
         }
     }
 

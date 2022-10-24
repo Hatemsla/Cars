@@ -15,7 +15,12 @@ public class IKSensor : MonoBehaviour
         {
             Texture2D texture = (Texture2D)_hit.collider.gameObject.GetComponent<Renderer>().material.mainTexture;
             Color color = texture.GetPixelBilinear(_hit.textureCoord2.x, _hit.textureCoord2.y);
-            grayScale = color.grayscale;
+            grayScale = Convert(color.grayscale, 1, 0, 0, 4095);
         }
+    }
+
+    public float Convert(float value, float From1, float From2, float To1, float To2)
+    {
+        return (value - From1) / (From2 - From1) * (To2 - To1) + To1;
     }
 }

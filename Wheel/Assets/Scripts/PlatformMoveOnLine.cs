@@ -3,42 +3,81 @@
 public class PlatformMoveOnLine : MonoBehaviour
 {
     public float maxMotorTorque = 250f;
+    public float maxBrakeTorque = 20000f;
     public float currentSpeed;
     public float maxSpeed = 30f;
+    public float error;
+    public float errorOld;
+    public float proportionalGain = 1;
+    public float integralGain = 1;
+    public float derivativeGain = 1;
+    public float powerR, powerL;
+    public float steer;
     public WheelCollider[] rightWheelsCollider;
     public WheelCollider[] leftWheelsCollider;
     public Transform[] rightWheelsTransform;
     public Transform[] leftWheelsTransform;
     public IKSensor[] _IKsensors;
 
-    [HideInInspector] public bool isStart;
+    [HideInInspector] public bool isBrake;
 
-    private float _rightSteer;
-    private float _leftSteer;
-    private float _maxSteer = 100;
+    private void Start()
+    {
+        isBrake = true;
+    }
+
+    private void Update()
+    {
+        UpdateAllWheelPose();
+    }
 
     private void FixedUpdate()
     {
-        if (isStart)
+        if (!isBrake)
         {
             Drive();
             ApplySteer();
-            UpdateAllWheelPose();
+        }
+
+        Brake();
+    }
+
+    private void Brake()
+    {
+        if (isBrake)
+        {
+            foreach (WheelCollider wheel in rightWheelsCollider)
+            {
+                wheel.brakeTorque = maxBrakeTorque;
+            }
+            foreach (WheelCollider wheel in leftWheelsCollider)
+            {
+                wheel.brakeTorque = maxBrakeTorque;
+            }
+        }
+        else
+        {
+            foreach (WheelCollider wheel in rightWheelsCollider)
+            {
+                wheel.brakeTorque = 0;
+            }
+            foreach (WheelCollider wheel in leftWheelsCollider)
+            {
+                wheel.brakeTorque = 0;
+            }
         }
     }
 
     private void ApplySteer()
     {
-        if (_IKsensors[0].grayScale < _IKsensors[1].grayScale)
-        {
-            _rightSteer = _maxSteer;
-            _leftSteer = 0;
-        }
-        else if (_IKsensors[0].grayScale > _IKsensors[1].grayScale)
-        {
-            _rightSteer = 0;
-            _leftSteer = _maxSteer;
-        }
+        error = (_IKsensors[0].grayScale - _IKsensors[1].grayScale);
+        steer += error;
+        steer = steer < -0.1f ? -0.1f : 0.1f;
+
+        powerL = (maxMotorTorque - (proportionalGain * error + derivativeGain * (error - errorOld) + integralGain * steer));
+        powerR = (maxMotorTorque + (proportionalGain * error + derivativeGain * (error - errorOld) + integralGain * steer));
+
+        errorOld = error;
     }
 
     private void Drive()
@@ -47,13 +86,14 @@ public class PlatformMoveOnLine : MonoBehaviour
 
         if (currentSpeed < maxSpeed)
         {
+            Debug.Log(Time.deltaTime);
             foreach (WheelCollider wheel in rightWheelsCollider)
             {
-                wheel.motorTorque = maxMotorTorque * Time.deltaTime * _rightSteer;
+                wheel.motorTorque = powerR;
             }
             foreach (WheelCollider wheel in leftWheelsCollider)
             {
-                wheel.motorTorque = maxMotorTorque * Time.deltaTime * _leftSteer;
+                wheel.motorTorque = powerL;
             }
         }
         else

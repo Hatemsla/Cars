@@ -14,7 +14,11 @@ public class UZSensor : MonoBehaviour
         {
             distance = _hit.distance;
             Debug.DrawRay(transform.position, transform.forward * 1000f);
-            //Debug.Log(_hit.transform.gameObject);
         }
+    }
+
+    public float Convert(float value, float From1, float From2, float To1, float To2)
+    {
+        return (value - From1) / (From2 - From1) * (To2 - To1) + To1;
     }
 }
