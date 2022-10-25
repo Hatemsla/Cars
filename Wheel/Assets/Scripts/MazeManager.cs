@@ -48,6 +48,7 @@ public class MazeManager : MonoBehaviour
         float.TryParse(DInput.text, out platform.derivativeGain);
         float.TryParse(SpeedInput.text, out platform.maxMotorTorque);
 
+        platform.isStart = true;
         platform.isBrake = false;
     }
 

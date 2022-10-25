@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.CrashReportHandler;
@@ -22,6 +23,7 @@ public class PlatformMoveInMaze : MonoBehaviour
     public float newError;
     public bool isBrake;
     public bool isStop;
+    public bool isStart;
     public WheelCollider[] rightWheelsCollider;
     public WheelCollider[] leftWheelsCollider;
     public Transform[] rightWheelsTransform;
@@ -35,6 +37,8 @@ public class PlatformMoveInMaze : MonoBehaviour
     private const float MinForwardDistance = 50f;
     private const float MinDistance = 40;
     private const float MinSideDistance = 15f;
+    private float _timeToStop = 5f;
+    public float _currentStopTime = 0;
     private float _steerMultiply = 100;
 
     private void Update()
@@ -52,6 +56,16 @@ public class PlatformMoveInMaze : MonoBehaviour
     {
         Drive();
         Brake();
+
+
+        if(_currentStopTime <= _timeToStop)
+        {
+            _currentStopTime += Time.deltaTime;
+        }
+        else
+        {
+            isStop = false;
+        }
     }
 
     private void CalcPID(float leftDisatnce, float rightDistance)
@@ -72,48 +86,59 @@ public class PlatformMoveInMaze : MonoBehaviour
     {
         currentSpeed = 2 * Mathf.PI * rightWheelsCollider[0].radius * rightWheelsCollider[0].rpm * 60 / 1000;
 
-        
+        if (isStart)
+        {
+            if (UZForward.distance < 10 || UZSideLeft.distance < 7 || UZSideRight.distance < 7 ||
+                UZLeft.distance < 5 || UZRight.distance < 5)
+            {
+                if (!isStop)
+                {
+                    isStop = true;
+                    StartCoroutine(Stop());
+                }
+            }
 
-        if(UZForward.distance > MinForwardDistance)
-        {
-            if (UZSideLeft.distance < MinSideDistance || UZSideRight.distance < MinSideDistance)
+            if (UZForward.distance > MinForwardDistance)
             {
-                CalcPID(UZSideLeft.distance, UZSideRight.distance);
+                if (UZSideLeft.distance < MinSideDistance || UZSideRight.distance < MinSideDistance)
+                {
+                    CalcPID(UZSideLeft.distance, UZSideRight.distance);
+                }
+                else
+                {
+                    CalcPID(0, 0);
+                }
             }
-            else
-            {   
-                CalcPID(0, 0);
-            }
-        }
-        else if(UZLeft.distance > UZRight.distance || UZLeft.distance < UZRight.distance)
-        {
-            if (UZSideLeft.distance < MinSideDistance || UZSideRight.distance < MinSideDistance)
+            else if (UZLeft.distance > UZRight.distance || UZLeft.distance < UZRight.distance)
             {
-                CalcPID(UZSideLeft.distance, UZSideRight.distance);
+                if (UZSideLeft.distance < MinSideDistance || UZSideRight.distance < MinSideDistance)
+                {
+                    CalcPID(UZSideLeft.distance, UZSideRight.distance);
+                }
+                else
+                {
+                    CalcPID(UZLeft.distance, UZRight.distance);
+                }
             }
             else
             {
                 CalcPID(UZLeft.distance, UZRight.distance);
             }
-        }
-        else
-        {
-            CalcPID(UZLeft.distance, UZRight.distance);
-        }
 
-        if (UZSideLeft.distance < MinSideDistance || UZSideRight.distance < MinSideDistance)
-        {
-            CalcPID(UZSideLeft.distance, UZSideRight.distance);
-        }
+            if (UZSideLeft.distance < MinSideDistance || UZSideRight.distance < MinSideDistance)
+            {
+                CalcPID(UZSideLeft.distance, UZSideRight.distance);
+            }
 
-        RobotMove();
+            RobotMove();
+        }
     }
 
     public IEnumerator Stop()
     {
-        isStop = false;
+        _currentStopTime = 0;
         isBrake = true;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(1f);
         isBrake = false;
     }
 
