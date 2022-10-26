@@ -38,7 +38,7 @@ public class CameraRotate : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (Input.GetKey(KeyCode.R))
+        if (Input.GetKey(KeyCode.Z))
         {
             ref float currentRotation = ref _currentRotationX[_k];
 
@@ -46,7 +46,7 @@ public class CameraRotate : MonoBehaviour
             SetLocalX(_k, currentRotation);
         }
 
-        else if (Input.GetKey(KeyCode.F))
+        else if (Input.GetKey(KeyCode.X))
         {
             ref float currentRotation = ref _currentRotationX[_k];
 

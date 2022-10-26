@@ -223,8 +223,89 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1001 &396551632
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 44639713, guid: 48c894ba12c676142a9763d3a4c7bb75, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 44639713, guid: 48c894ba12c676142a9763d3a4c7bb75, type: 3}
+      propertyPath: near clip plane
+      value: 1.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 881375278, guid: 48c894ba12c676142a9763d3a4c7bb75, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4936801430584018468, guid: 48c894ba12c676142a9763d3a4c7bb75,
+        type: 3}
+      propertyPath: m_Name
+      value: Platform
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749084696091401374, guid: 48c894ba12c676142a9763d3a4c7bb75,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749084696091401374, guid: 48c894ba12c676142a9763d3a4c7bb75,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -10.81022
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749084696091401374, guid: 48c894ba12c676142a9763d3a4c7bb75,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.162198
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749084696091401374, guid: 48c894ba12c676142a9763d3a4c7bb75,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 17.882074
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749084696091401374, guid: 48c894ba12c676142a9763d3a4c7bb75,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749084696091401374, guid: 48c894ba12c676142a9763d3a4c7bb75,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749084696091401374, guid: 48c894ba12c676142a9763d3a4c7bb75,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749084696091401374, guid: 48c894ba12c676142a9763d3a4c7bb75,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749084696091401374, guid: 48c894ba12c676142a9763d3a4c7bb75,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749084696091401374, guid: 48c894ba12c676142a9763d3a4c7bb75,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749084696091401374, guid: 48c894ba12c676142a9763d3a4c7bb75,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 48c894ba12c676142a9763d3a4c7bb75, type: 3}
 --- !u!4 &452171928 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2607860197021024837, guid: 276f9fa5294e34b469b5ecfcde8f7982,
@@ -380,7 +461,7 @@ Transform:
   m_LocalScale: {x: 100, y: 1, z: 100}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!146 &1175804144 stripped
 WheelCollider:
@@ -476,6 +557,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlaftormCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 2574443208243077186, guid: 276f9fa5294e34b469b5ecfcde8f7982,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3086747206073866818, guid: 276f9fa5294e34b469b5ecfcde8f7982,
         type: 3}

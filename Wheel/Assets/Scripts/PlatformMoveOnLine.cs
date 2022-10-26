@@ -86,7 +86,6 @@ public class PlatformMoveOnLine : MonoBehaviour
 
         if (currentSpeed < maxSpeed)
         {
-            Debug.Log(Time.deltaTime);
             foreach (WheelCollider wheel in rightWheelsCollider)
             {
                 wheel.motorTorque = powerR;
