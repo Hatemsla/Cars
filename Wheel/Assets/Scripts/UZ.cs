@@ -37,7 +37,7 @@ public class UZ : MonoBehaviour
 
             Ray ray = new Ray(start.transform.position, newVector);
 
-            RaycastHit raycastHit = new RaycastHit();
+            RaycastHit raycastHit;
             if (Physics.Raycast(start.transform.position, ray.direction, out raycastHit, 1000f))
             {
                 Debug.DrawRay(start.transform.position, start.transform.position + ray.direction * 100, Color.green, 0.0f, false);

@@ -206,6 +206,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2121094238, guid: 5cc818232d7cd974e80bb3f04b931b6b, type: 3}
+      propertyPath: upBtn
+      value: 
+      objectReference: {fileID: 785021197}
+    - target: {fileID: 2121094238, guid: 5cc818232d7cd974e80bb3f04b931b6b, type: 3}
+      propertyPath: downBtn
+      value: 
+      objectReference: {fileID: 467250915}
+    - target: {fileID: 2121094238, guid: 5cc818232d7cd974e80bb3f04b931b6b, type: 3}
+      propertyPath: leftBtn
+      value: 
+      objectReference: {fileID: 2097587745}
+    - target: {fileID: 2121094238, guid: 5cc818232d7cd974e80bb3f04b931b6b, type: 3}
+      propertyPath: rightBtn
+      value: 
+      objectReference: {fileID: 286553771}
+    - target: {fileID: 2121094238, guid: 5cc818232d7cd974e80bb3f04b931b6b, type: 3}
+      propertyPath: distanceText
+      value: 
+      objectReference: {fileID: 8022543}
     - target: {fileID: 2781289223451285491, guid: 5cc818232d7cd974e80bb3f04b931b6b,
         type: 3}
       propertyPath: m_RootOrder
@@ -1824,11 +1844,11 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 104573674}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2121094238
+--- !u!114 &2121094238 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 2121094238, guid: 5cc818232d7cd974e80bb3f04b931b6b,
+    type: 3}
+  m_PrefabInstance: {fileID: 104573674}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2121094237}
   m_Enabled: 1
@@ -1836,10 +1856,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adb71f04c11b41e40b1da96d0584f6c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  rayCount: 100
-  leftBtn: {fileID: 2097587745}
-  rightBtn: {fileID: 286553771}
-  upBtn: {fileID: 785021197}
-  downBtn: {fileID: 467250915}
-  distanceText: {fileID: 8022543}

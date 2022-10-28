@@ -121,6 +121,55 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &121400988 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2357959242524712497, guid: 48c894ba12c676142a9763d3a4c7bb75,
+    type: 3}
+  m_PrefabInstance: {fileID: 396551632}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &121400989
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121400988}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
 --- !u!4 &131338151 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2607860197746838362, guid: 276f9fa5294e34b469b5ecfcde8f7982,
@@ -132,6 +181,12 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 3086747206073866818, guid: 276f9fa5294e34b469b5ecfcde8f7982,
     type: 3}
   m_PrefabInstance: {fileID: 9005110130929613691}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &276741099 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 878271724880716159, guid: 48c894ba12c676142a9763d3a4c7bb75,
+    type: 3}
+  m_PrefabInstance: {fileID: 396551632}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &396201602
 GameObject:
@@ -240,9 +295,34 @@ PrefabInstance:
       propertyPath: near clip plane
       value: 1.45
       objectReference: {fileID: 0}
+    - target: {fileID: 396551634, guid: 48c894ba12c676142a9763d3a4c7bb75, type: 3}
+      propertyPath: allCameras.Array.data[1]
+      value: 
+      objectReference: {fileID: 121400989}
+    - target: {fileID: 396551634, guid: 48c894ba12c676142a9763d3a4c7bb75, type: 3}
+      propertyPath: cameraTransofrms.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 396551634, guid: 48c894ba12c676142a9763d3a4c7bb75, type: 3}
+      propertyPath: cameraTransofrms.Array.data[0]
+      value: 
+      objectReference: {fileID: 691084197}
+    - target: {fileID: 396551634, guid: 48c894ba12c676142a9763d3a4c7bb75, type: 3}
+      propertyPath: cameraTransofrms.Array.data[1]
+      value: 
+      objectReference: {fileID: 276741099}
     - target: {fileID: 881375278, guid: 48c894ba12c676142a9763d3a4c7bb75, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: near clip plane
+      value: 1.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 3333885792122395651, guid: 48c894ba12c676142a9763d3a4c7bb75,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4936801430584018468, guid: 48c894ba12c676142a9763d3a4c7bb75,
         type: 3}
@@ -317,6 +397,12 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 1801373445533676001, guid: 276f9fa5294e34b469b5ecfcde8f7982,
     type: 3}
   m_PrefabInstance: {fileID: 9005110130929613691}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &691084197 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7609822984773494100, guid: 48c894ba12c676142a9763d3a4c7bb75,
+    type: 3}
+  m_PrefabInstance: {fileID: 396551632}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &734471450 stripped
 GameObject:

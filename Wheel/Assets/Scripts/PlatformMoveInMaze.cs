@@ -24,6 +24,8 @@ public class PlatformMoveInMaze : MonoBehaviour
     public bool isBrake;
     public bool isStop;
     public bool isStart;
+    public bool isReversing;
+    public bool isMoving;
     public WheelCollider[] rightWheelsCollider;
     public WheelCollider[] leftWheelsCollider;
     public Transform[] rightWheelsTransform;
@@ -34,11 +36,16 @@ public class PlatformMoveInMaze : MonoBehaviour
     public UZSensor UZRight;
     public UZSensor UZLeft;
 
+    private Rigidbody _rb;
     private const float MinForwardDistance = 50f;
     private const float MinDistance = 40;
-    private const float MinSideDistance = 15f;
-    private float _timeToStop = 5f;
-    public float _currentStopTime = 0;
+    private const float MinSideDistance = 20f;
+    private float _timeToStop = 4f;
+    private float _currentStopTime = 0;
+    private float _reversCounter = 0;
+    private float _reversFor = 2f;
+    public float _movingCounter = 0;
+    private float _movingFor = 3f;
     private float _steerMultiply = 100;
 
     private void Update()
@@ -57,14 +64,32 @@ public class PlatformMoveInMaze : MonoBehaviour
         Drive();
         Brake();
 
-
         if(_currentStopTime <= _timeToStop)
-        {
             _currentStopTime += Time.deltaTime;
-        }
         else
-        {
             isStop = false;
+
+        if (isMoving)
+        {
+            if(_movingCounter <= _movingFor)
+            {
+                _movingCounter += Time.deltaTime;
+            }
+            else
+            {
+                isMoving = false;
+                _movingCounter = 0;
+            }
+        }
+
+        if (!isStop && isReversing)
+        {
+            _reversCounter += Time.deltaTime;
+            if(_reversCounter >= _reversFor)
+            {
+                _reversCounter = 0;
+                isReversing = false;
+            }
         }
     }
 
@@ -88,58 +113,67 @@ public class PlatformMoveInMaze : MonoBehaviour
 
         if (isStart)
         {
-            if (UZForward.distance < 10 || UZSideLeft.distance < 7 || UZSideRight.distance < 7 ||
-                UZLeft.distance < 5 || UZRight.distance < 5)
+            if (UZForward.distance < 5 && !isReversing)
             {
-                if (!isStop)
+                isReversing = true;
+                powerL = -700;
+                powerR = -700;
+            }
+            else if (!isReversing && (UZForward.distance < 15 || UZSideLeft.distance < 10 || 
+                UZSideRight.distance < 10 || UZLeft.distance < 5 || UZRight.distance < 5))
+            {
+                if (!isStop && !isMoving)
                 {
                     isStop = true;
-                    StartCoroutine(Stop());
+                    StartCoroutine(Stop(1.5f));
                 }
             }
 
-            if (UZForward.distance > MinForwardDistance)
+            if (!isReversing)
             {
-                if (UZSideLeft.distance < MinSideDistance || UZSideRight.distance < MinSideDistance)
+                if (UZForward.distance > MinForwardDistance)
                 {
-                    CalcPID(UZSideLeft.distance, UZSideRight.distance);
+                    if (UZSideLeft.distance < MinSideDistance || UZSideRight.distance < MinSideDistance)
+                    {
+                        CalcPID(UZSideLeft.distance, UZSideRight.distance);
+                    }
+                    else
+                    {
+                        CalcPID(0, 0);
+                    }
                 }
-                else
+                else if (UZLeft.distance > UZRight.distance || UZLeft.distance < UZRight.distance)
                 {
-                    CalcPID(0, 0);
-                }
-            }
-            else if (UZLeft.distance > UZRight.distance || UZLeft.distance < UZRight.distance)
-            {
-                if (UZSideLeft.distance < MinSideDistance || UZSideRight.distance < MinSideDistance)
-                {
-                    CalcPID(UZSideLeft.distance, UZSideRight.distance);
+                    if (UZSideLeft.distance < MinSideDistance || UZSideRight.distance < MinSideDistance)
+                    {
+                        CalcPID(UZSideLeft.distance, UZSideRight.distance);
+                    }
+                    else
+                    {
+                        CalcPID(UZLeft.distance, UZRight.distance);
+                    }
                 }
                 else
                 {
                     CalcPID(UZLeft.distance, UZRight.distance);
                 }
-            }
-            else
-            {
-                CalcPID(UZLeft.distance, UZRight.distance);
-            }
 
-            if (UZSideLeft.distance < MinSideDistance || UZSideRight.distance < MinSideDistance)
-            {
-                CalcPID(UZSideLeft.distance, UZSideRight.distance);
+                if (UZSideLeft.distance < MinSideDistance || UZSideRight.distance < MinSideDistance)
+                {
+                    CalcPID(UZSideLeft.distance, UZSideRight.distance);
+                }
             }
-
             RobotMove();
         }
     }
 
-    public IEnumerator Stop()
+    public IEnumerator Stop(float stopTime)
     {
         _currentStopTime = 0;
         isBrake = true;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(stopTime);
         isBrake = false;
+        isMoving = true;
     }
 
     private void RobotMove()

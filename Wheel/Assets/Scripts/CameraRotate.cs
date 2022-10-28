@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraRotate : MonoBehaviour
 {
     public Camera[] allCameras;
+    public Transform[] cameraTransofrms;
     public float rotationStep = 2f;
 
     private int _k = 0;
@@ -57,9 +58,9 @@ public class CameraRotate : MonoBehaviour
 
     private void SetLocalX(int cameraIndex, float value)
     {
-        Vector3 resultLocalRot = allCameras[cameraIndex].transform.localEulerAngles;
+        Vector3 resultLocalRot = cameraTransofrms[cameraIndex].transform.localEulerAngles;
         resultLocalRot.x = value;
 
-        allCameras[_k].transform.localEulerAngles = resultLocalRot;
+        cameraTransofrms[_k].transform.localEulerAngles = resultLocalRot;
     }
 }
