@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using WebSocketSharp;
+using Newtonsoft.Json;
 
 public class PlatformMoveOnLine : MonoBehaviour
 {
@@ -17,7 +19,7 @@ public class PlatformMoveOnLine : MonoBehaviour
     public WheelCollider[] leftWheelsCollider;
     public Transform[] rightWheelsTransform;
     public Transform[] leftWheelsTransform;
-    public IKSensor[] _IKsensors;
+    public IKSensor[] IKsensors;
 
     [HideInInspector] public bool isBrake;
 
@@ -36,7 +38,7 @@ public class PlatformMoveOnLine : MonoBehaviour
         if (!isBrake)
         {
             Drive();
-            ApplySteer();
+            //ApplySteer();
         }
 
         Brake();
@@ -47,30 +49,22 @@ public class PlatformMoveOnLine : MonoBehaviour
         if (isBrake)
         {
             foreach (WheelCollider wheel in rightWheelsCollider)
-            {
                 wheel.brakeTorque = maxBrakeTorque;
-            }
             foreach (WheelCollider wheel in leftWheelsCollider)
-            {
                 wheel.brakeTorque = maxBrakeTorque;
-            }
         }
         else
         {
             foreach (WheelCollider wheel in rightWheelsCollider)
-            {
                 wheel.brakeTorque = 0;
-            }
             foreach (WheelCollider wheel in leftWheelsCollider)
-            {
                 wheel.brakeTorque = 0;
-            }
         }
     }
 
     private void ApplySteer()
     {
-        error = (_IKsensors[0].grayScale - _IKsensors[1].grayScale);
+        error = (IKsensors[0].grayScale - IKsensors[1].grayScale);
         steer += error;
         steer = steer < -0.1f ? -0.1f : 0.1f;
 
@@ -87,24 +81,16 @@ public class PlatformMoveOnLine : MonoBehaviour
         if (currentSpeed < maxSpeed)
         {
             foreach (WheelCollider wheel in rightWheelsCollider)
-            {
                 wheel.motorTorque = powerR;
-            }
             foreach (WheelCollider wheel in leftWheelsCollider)
-            {
                 wheel.motorTorque = powerL;
-            }
         }
         else
         {
             foreach (WheelCollider wheel in rightWheelsCollider)
-            {
                 wheel.motorTorque = 0;
-            }
             foreach (WheelCollider wheel in leftWheelsCollider)
-            {
                 wheel.motorTorque = 0;
-            }
         }
     }
 

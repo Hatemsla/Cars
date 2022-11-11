@@ -39,107 +39,69 @@ public class Platform : MonoBehaviour
     private void Drive()
     {
         currentSpeed = 2 * Mathf.PI * rightWheelsCollider[0].radius * rightWheelsCollider[0].rpm * 60 / 1000;
-        if (currentSpeed < maxSpeed)
+
+        if(_verticalInput > 0 && _horizontalInput == 0)
         {
-            if (_horizontalInput != 0 && _verticalInput == 0)
-            {
-                _rb.drag = 0;
-                if (_horizontalInput < 0)
-                {
-                    foreach (WheelCollider wheel in rightWheelsCollider)
-                    {
-                        wheel.motorTorque = -maxMotorTorque * Time.deltaTime * _horizontalInput * 100;
-                    }
-                    foreach (WheelCollider wheel in leftWheelsCollider)
-                    {
-                        wheel.motorTorque = maxMotorTorque * Time.deltaTime * _horizontalInput * 100;
-                    }
-                }
-                else if (_horizontalInput > 0)
-                {
-                    foreach (WheelCollider wheel in rightWheelsCollider)
-                    {
-                        wheel.motorTorque = -maxMotorTorque * Time.deltaTime * _horizontalInput * 100;
-                    }
-                    foreach (WheelCollider wheel in leftWheelsCollider)
-                    {
-                        wheel.motorTorque = maxMotorTorque * Time.deltaTime * _horizontalInput * 100;
-                    }
-                }
-                else
-                {
-                    foreach (WheelCollider wheel in rightWheelsCollider)
-                    {
-                        wheel.motorTorque = 0;
-                    }
-                    foreach (WheelCollider wheel in leftWheelsCollider)
-                    {
-                        wheel.motorTorque = 0;
-                    }
-                }
-            }
-            else if (_verticalInput != 0 && _horizontalInput == 0)
-            {
-                _rb.drag = 0;
-                foreach (WheelCollider wheel in rightWheelsCollider)
-                {
-                    wheel.motorTorque = maxMotorTorque * Time.deltaTime * _verticalInput * 50;
-                }
-                foreach (WheelCollider wheel in leftWheelsCollider)
-                {
-                    wheel.motorTorque = maxMotorTorque * Time.deltaTime * _verticalInput * 50;
-                }
-            }
-            else if (_verticalInput != 0 && _horizontalInput != 0)
-            {
-                _rb.drag = 0;
-                if (_horizontalInput < 0)
-                {
-                    foreach (WheelCollider wheel in rightWheelsCollider)
-                    {
-                        wheel.motorTorque = maxMotorTorque * Time.deltaTime * _verticalInput * 100;
-                    }
-                    foreach (WheelCollider wheel in leftWheelsCollider)
-                    {
-                        wheel.motorTorque = maxMotorTorque * Time.deltaTime * _verticalInput * 50;
-                    }
-                }
-                else if (_horizontalInput > 0)
-                {
-                    foreach (WheelCollider wheel in rightWheelsCollider)
-                    {
-                        wheel.motorTorque = maxMotorTorque * Time.deltaTime * _verticalInput * 50;
-                    }
-                    foreach (WheelCollider wheel in leftWheelsCollider)
-                    {
-                        wheel.motorTorque = maxMotorTorque * Time.deltaTime * _verticalInput * 100;
-                    }
-                }
-            }
-            else
-            {
-                _rb.drag = 5;
-                foreach (WheelCollider wheel in rightWheelsCollider)
-                {
-                    wheel.motorTorque = 0;
-                }
-                foreach (WheelCollider wheel in leftWheelsCollider)
-                {
-                    wheel.motorTorque = 0;
-                }
-            }
+            foreach (WheelCollider wheel in rightWheelsCollider)
+                wheel.motorTorque = maxMotorTorque * Time.deltaTime * 100;
+            foreach (WheelCollider wheel in leftWheelsCollider)
+                wheel.motorTorque = maxMotorTorque * Time.deltaTime * 100;
         }
-        else
+        else if(_verticalInput < 0 && _horizontalInput == 0)
         {
-            _rb.drag = 0;
+            foreach (WheelCollider wheel in rightWheelsCollider)
+                wheel.motorTorque = -maxMotorTorque * Time.deltaTime * 100;
+            foreach (WheelCollider wheel in leftWheelsCollider)
+                wheel.motorTorque = -maxMotorTorque * Time.deltaTime * 100;
+        }
+        else if(_verticalInput > 0 && _horizontalInput > 0)
+        {
+            foreach (WheelCollider wheel in rightWheelsCollider)
+                wheel.motorTorque = -maxMotorTorque * Time.deltaTime * 100;
+            foreach (WheelCollider wheel in leftWheelsCollider)
+                wheel.motorTorque = maxMotorTorque * Time.deltaTime * 100;
+        }
+        else if(_verticalInput > 0 && _horizontalInput < 0)
+        {
+            foreach (WheelCollider wheel in rightWheelsCollider)
+                wheel.motorTorque = maxMotorTorque * Time.deltaTime * 100;
+            foreach (WheelCollider wheel in leftWheelsCollider)
+                wheel.motorTorque = -maxMotorTorque * Time.deltaTime * 100;
+        }
+        else if (_verticalInput > 0 && _horizontalInput > 0)
+        {
+            foreach (WheelCollider wheel in rightWheelsCollider)
+                wheel.motorTorque = -maxMotorTorque * Time.deltaTime * 100;
+            foreach (WheelCollider wheel in leftWheelsCollider)
+                wheel.motorTorque = maxMotorTorque * Time.deltaTime * 100;
+        }
+        else if (_verticalInput > 0 && _horizontalInput < 0)
+        {
+            foreach (WheelCollider wheel in rightWheelsCollider)
+                wheel.motorTorque = maxMotorTorque * Time.deltaTime * 100;
+            foreach (WheelCollider wheel in leftWheelsCollider)
+                wheel.motorTorque = -maxMotorTorque * Time.deltaTime * 100;
+        }
+
+        if (_horizontalInput == 0 && _verticalInput == 0)
+        {
             foreach (WheelCollider wheel in rightWheelsCollider)
             {
                 wheel.motorTorque = 0;
+                wheel.brakeTorque = 20000f;
             }
             foreach (WheelCollider wheel in leftWheelsCollider)
             {
                 wheel.motorTorque = 0;
+                wheel.brakeTorque = 20000f;
             }
+        }
+        else
+        {
+            foreach (WheelCollider wheel in rightWheelsCollider)
+                wheel.brakeTorque = 0;
+            foreach (WheelCollider wheel in leftWheelsCollider)
+                wheel.brakeTorque = 0;
         }
     }
 

@@ -272,7 +272,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 502139485}
-  - component: {fileID: 502139484}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -280,19 +279,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &502139484
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 502139483}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 567c8e8491b76f94a988085e89119bcd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  robot: {fileID: 0}
 --- !u!4 &502139485
 Transform:
   m_ObjectHideFlags: 0
@@ -968,6 +954,10 @@ MonoBehaviour:
     type: 3}
   prefabLeftWheels: {fileID: 6248374849719778725, guid: 0cfbb5a41faa227418db8d26d4ec1246,
     type: 3}
+  settings: {fileID: 1172008906}
+  settingsPanel: {fileID: 1350537299}
+  canvas: {fileID: 1441816892}
+  platform: {fileID: 1244803941}
   speedField: {fileID: 1192482285}
   timeField: {fileID: 1465682645}
   toggleGroupRL: {fileID: 1478730862}
@@ -977,10 +967,6 @@ MonoBehaviour:
   - {fileID: 1339352042}
   - {fileID: 848060254}
   toggleFB: {fileID: 0}
-  settings: {fileID: 1172008906}
-  settingsPanel: {fileID: 1350537299}
-  canvas: {fileID: 1441816892}
-  platform: {fileID: 1244803941}
 --- !u!4 &1576391631
 Transform:
   m_ObjectHideFlags: 0
@@ -1303,12 +1289,12 @@ PrefabInstance:
     - target: {fileID: 443589688564928337, guid: 4c1feda53acffbe4ca79074c99f06204,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: -1167.8077
+      value: -1295.4323
       objectReference: {fileID: 0}
     - target: {fileID: 443589688564928337, guid: 4c1feda53acffbe4ca79074c99f06204,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: -684.75275
+      value: -736.5133
       objectReference: {fileID: 0}
     - target: {fileID: 443589688564928337, guid: 4c1feda53acffbe4ca79074c99f06204,
         type: 3}
@@ -1348,12 +1334,12 @@ PrefabInstance:
     - target: {fileID: 443589688564928337, guid: 4c1feda53acffbe4ca79074c99f06204,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 166.09
+      value: 626.40015
       objectReference: {fileID: 0}
     - target: {fileID: 443589688564928337, guid: 4c1feda53acffbe4ca79074c99f06204,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 79.624
+      value: 285
       objectReference: {fileID: 0}
     - target: {fileID: 443589688564928337, guid: 4c1feda53acffbe4ca79074c99f06204,
         type: 3}

@@ -134,36 +134,25 @@ public class PlatformMoveInMaze : MonoBehaviour
                 if (UZForward.distance > MinForwardDistance)
                 {
                     if (UZSideLeft.distance < MinSideDistance || UZSideRight.distance < MinSideDistance)
-                    {
                         CalcPID(UZSideLeft.distance, UZSideRight.distance);
-                    }
                     else
-                    {
                         CalcPID(0, 0);
-                    }
                 }
                 else if (UZLeft.distance > UZRight.distance || UZLeft.distance < UZRight.distance)
                 {
                     if (UZSideLeft.distance < MinSideDistance || UZSideRight.distance < MinSideDistance)
-                    {
                         CalcPID(UZSideLeft.distance, UZSideRight.distance);
-                    }
                     else
-                    {
                         CalcPID(UZLeft.distance, UZRight.distance);
-                    }
                 }
                 else
-                {
                     CalcPID(UZLeft.distance, UZRight.distance);
-                }
 
                 if (UZSideLeft.distance < MinSideDistance || UZSideRight.distance < MinSideDistance)
-                {
                     CalcPID(UZSideLeft.distance, UZSideRight.distance);
-                }
+
+                RobotMove();
             }
-            RobotMove();
         }
     }
 
@@ -179,13 +168,9 @@ public class PlatformMoveInMaze : MonoBehaviour
     private void RobotMove()
     {
         foreach (WheelCollider wheel in rightWheelsCollider)
-        {
             wheel.motorTorque = powerR;
-        }
         foreach (WheelCollider wheel in leftWheelsCollider)
-        {
             wheel.motorTorque = powerL;
-        }
     }
 
     private void Brake()
@@ -193,24 +178,16 @@ public class PlatformMoveInMaze : MonoBehaviour
         if (isBrake)
         {
             foreach (WheelCollider wheel in rightWheelsCollider)
-            {
                 wheel.brakeTorque = maxBrakeTorque;
-            }
             foreach (WheelCollider wheel in leftWheelsCollider)
-            {
                 wheel.brakeTorque = maxBrakeTorque;
-            }
         }
         else
         {
             foreach (WheelCollider wheel in rightWheelsCollider)
-            {
                 wheel.brakeTorque = 0;
-            }
             foreach (WheelCollider wheel in leftWheelsCollider)
-            {
                 wheel.brakeTorque = 0;
-            }
         }
     }
 

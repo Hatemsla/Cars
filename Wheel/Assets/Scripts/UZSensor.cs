@@ -6,23 +6,10 @@ using UnityEngine;
 public class UZSensor : MonoBehaviour
 {
     public float distance;
-    public float radius = 5.0f;
-    public int segments = 12;
-    public float curveAmount = 360.0f;
-    private float calcAngle;
-    private List<Vector3> nodes = new List<Vector3>();
-
-    private RaycastHit _hit;
 
     private void Update()
     {
-        //if (Physics.Raycast(transform.position, transform.forward, out _hit, 1000f, -1, QueryTriggerInteraction.Ignore))
-        //{
-        //    distance = _hit.distance;
-        //    Debug.DrawRay(transform.position, transform.forward * 1000f);
-        //}
-        AngleCalc(30, 100);
-        
+        AngleCalc(30, 100);   
     }
 
     public void AngleCalc(float angle, int raysCount)

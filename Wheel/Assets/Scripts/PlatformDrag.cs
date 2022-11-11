@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlatformDrag : MonoBehaviour
 {
+    public Camera mainCamera;
     private float _mZCoord;
     private Vector3 _offset;
 
@@ -15,7 +16,7 @@ public class PlatformDrag : MonoBehaviour
 
     private void OnMouseDown()
     {
-        _mZCoord = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
+        _mZCoord = mainCamera.WorldToScreenPoint(gameObject.transform.position).z;
 
         _offset = gameObject.transform.position - GetMouseAsWorldPoint();
     }
@@ -26,7 +27,7 @@ public class PlatformDrag : MonoBehaviour
 
         mousePoint.z = _mZCoord;
 
-        return Camera.main.ScreenToWorldPoint(mousePoint);
+        return mainCamera.ScreenToWorldPoint(mousePoint);
     }
 
     private void OnMouseDrag()

@@ -28,6 +28,7 @@ public class LineManager : MonoBehaviour
 
     private void Start()
     {
+        platformCamera.gameObject.transform.parent = topCameraPosition.parent;
         platformCamera.gameObject.transform.position = topCameraPosition.transform.position;
         platformCamera.gameObject.transform.rotation = topCameraPosition.transform.rotation;
 
@@ -58,6 +59,7 @@ public class LineManager : MonoBehaviour
 
     public void StartRide()
     {
+        platformCamera.gameObject.transform.parent = platformCameraPosition.parent;
         platformCamera.gameObject.transform.position = platformCameraPosition.transform.position;
         platformCamera.gameObject.transform.rotation = platformCameraPosition.transform.rotation;
 
@@ -69,6 +71,8 @@ public class LineManager : MonoBehaviour
         float.TryParse(IInput.text, out platform.integralGain);
         float.TryParse(DInput.text, out platform.derivativeGain);
         float.TryParse(PowerInput.text, out platform.maxMotorTorque);
+
+        platform.maxMotorTorque *= 100;
 
         platform.isBrake = false;
     }

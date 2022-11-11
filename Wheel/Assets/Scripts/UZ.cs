@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class UZ : MonoBehaviour
 {
     public float speed = 10f;
+    public float angle = 30f;
     public int rayCount = 100;
     public Button leftBtn;
     public Button rightBtn;
@@ -17,44 +18,37 @@ public class UZ : MonoBehaviour
 
     private Vector3 _direction;
 
-    private void FixedUpdate()
+    private void Update()
     {
-        AngleCalc(gameObject, rayCount, 75, 105);
+        AngleCalc(angle, rayCount);
         UZMove();
     }
-    public Vector3 AngleCalc(GameObject start, int rays, float minAngle, float maxAngle)
+    public void AngleCalc(float angle, int raysCount)
     {
-        float angleZone = 180f - minAngle - (180f - maxAngle);
-        float offset = angleZone / rays;
-        int count = 0;
-        float averageDistance = 0;
+        var rayOffset = angle / raysCount;
+        int catchRaysCount = 0;
+        float distance = 0;
+        RaycastHit hit;
 
-        for (float i = minAngle; i <= maxAngle; i += offset)
+        for (var i = -angle * 0.5f; i <= angle * 0.5f; i += rayOffset)
         {
-            Vector3 noAngle = start.transform.right;
-            Quaternion spreadAngle = Quaternion.AngleAxis(i, new Vector3(0, 1, 0));
-            Vector3 newVector = spreadAngle * noAngle;
-
-            Ray ray = new Ray(start.transform.position, newVector);
-
-            RaycastHit raycastHit;
-            if (Physics.Raycast(start.transform.position, ray.direction, out raycastHit, 1000f))
+            var direction = transform.TransformDirection(Quaternion.AngleAxis(i, transform.up) * transform.forward);
+            if (Physics.Raycast(transform.position, direction, out hit, 1000f, -1, QueryTriggerInteraction.Ignore))
             {
-                Debug.DrawRay(start.transform.position, start.transform.position + ray.direction * 100, Color.green, 0.0f, false);
-                count++;
-                averageDistance += raycastHit.distance;
+                distance += hit.distance;
+                catchRaysCount++;
+                Debug.DrawLine(transform.position, transform.position + direction * hit.distance, Color.green);
             }
             else
             {
-                Debug.DrawRay(start.transform.position, start.transform.position + ray.direction * 100, Color.white, 0.0f, false);
+                Debug.DrawLine(transform.position, transform.position + direction * 20, Color.white);
             }
         }
-        if (count != 0)
-        {
-            averageDistance /= count;
-        }
-        distanceText.text = averageDistance + "";
-        return start.transform.position + start.transform.forward * 100;
+
+        if (catchRaysCount > 0)
+            distance /= catchRaysCount;
+
+        distanceText.text = distance.ToString();
     }
 
     private void UZMove()
