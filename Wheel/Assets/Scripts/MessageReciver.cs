@@ -8,10 +8,8 @@ namespace Assets.Scripts
 {
     internal class MessageReciver
     {
-        public float P { get; set; }
-        public float I { get; set; }
-        public float D { get; set; }
-        public float Speed { get; set; }
-        public float Time { get; set; }
+        public double PowerL { get; set; }
+        public double PowerR { get; set; }
+        public bool IsBrake { get; set; }
     }
 }

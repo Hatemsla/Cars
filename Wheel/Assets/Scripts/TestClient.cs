@@ -58,18 +58,18 @@ public class TestClient : MonoBehaviour
 
     }
 
-    public IEnumerator Move(string data)
-    {
-        MessageReciver m = JsonConvert.DeserializeObject<MessageReciver>(data);
+    //public IEnumerator Move(string data)
+    //{
+    //    MessageReciver m = JsonConvert.DeserializeObject<MessageReciver>(data);
 
-        float offset = 0;
-        Vector3 originPosition = transform.TransformDirection(transform.position);
-        Vector3 newPosition = new Vector3(m.P, m.I, m.D);
-        while (transform.position != newPosition)
-        {
-            transform.position = Vector3.Lerp(originPosition, newPosition, offset);
-            offset += Time.deltaTime;
-            yield return new WaitForEndOfFrame();
-        }
-    }
+    //    float offset = 0;
+    //    Vector3 originPosition = transform.TransformDirection(transform.position);
+    //    Vector3 newPosition = new Vector3(m.P, m.I, m.D);
+    //    while (transform.position != newPosition)
+    //    {
+    //        transform.position = Vector3.Lerp(originPosition, newPosition, offset);
+    //        offset += Time.deltaTime;
+    //        yield return new WaitForEndOfFrame();
+    //    }
+    //}
 }

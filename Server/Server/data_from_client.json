@@ -1,1 +1,14 @@
-{"IKSensorLeft": 0.0, "IKSensorRight": 0.0, "UZSensorLeft": 13.0369473, "UZSensorLeftSide": 20.5568333, "UZSensorForward": 83.24626, "UZSensorRightSide": 36.9704361, "UZSensorRight": 22.913063}
+{
+  "IKSensorLeft": 0.0,
+  "IKSensorRight": 0.0,
+  "UZSensorLeft": 0.0,
+  "UZSensorLeftSide": 0.0,
+  "UZSensorForward": 0.0,
+  "UZSensorRightSide": 0.0,
+  "UZSensorRight": 0.0,
+  "IsBrake": false,
+  "IsReversing": false,
+  "IsStop": false,
+  "IsMoving": false,
+  "IsStart": false
+}

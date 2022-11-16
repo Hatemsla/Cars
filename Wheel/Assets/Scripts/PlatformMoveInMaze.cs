@@ -36,9 +36,7 @@ public class PlatformMoveInMaze : MonoBehaviour
     public UZSensor UZRight;
     public UZSensor UZLeft;
 
-    private Rigidbody _rb;
     private const float MinForwardDistance = 50f;
-    private const float MinDistance = 40;
     private const float MinSideDistance = 20f;
     private float _timeToStop = 4f;
     private float _currentStopTime = 0;
@@ -46,7 +44,6 @@ public class PlatformMoveInMaze : MonoBehaviour
     private float _reversFor = 2f;
     public float _movingCounter = 0;
     private float _movingFor = 3f;
-    private float _steerMultiply = 100;
 
     private void Update()
     {
@@ -61,7 +58,8 @@ public class PlatformMoveInMaze : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Drive();
+        //Drive();
+        RobotMove();
         Brake();
 
         if(_currentStopTime <= _timeToStop)
@@ -72,9 +70,7 @@ public class PlatformMoveInMaze : MonoBehaviour
         if (isMoving)
         {
             if(_movingCounter <= _movingFor)
-            {
                 _movingCounter += Time.deltaTime;
-            }
             else
             {
                 isMoving = false;

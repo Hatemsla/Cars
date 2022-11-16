@@ -11,6 +11,7 @@ public class DataController : MonoBehaviour
     public PlatformMoveInMaze PlatformMoveInMaze;
 
     private WebSocket _ws;
+    private MessageReciver _messageReciver;
     private string _message;
     private bool _isOpen;
     private bool _isMessage;
@@ -43,7 +44,7 @@ public class DataController : MonoBehaviour
         {
             MessageSender sender = new MessageSender(PlatformMoveOnLine.IKsensors[0].grayScale, PlatformMoveOnLine.IKsensors[1].grayScale,
                 PlatformMoveInMaze.UZLeft.distance, PlatformMoveInMaze.UZSideLeft.distance, PlatformMoveInMaze.UZForward.distance,
-                PlatformMoveInMaze.UZSideRight.distance, PlatformMoveInMaze.UZRight.distance);
+                PlatformMoveInMaze.UZSideRight.distance, PlatformMoveInMaze.UZRight.distance, PlatformMoveInMaze.isStart);
 
             string jsonSender = JsonConvert.SerializeObject(sender);
 
@@ -52,9 +53,21 @@ public class DataController : MonoBehaviour
 
         if(_isMessage)
         {
-            _isMessage= false;
-            PlatformMoveOnLine.powerL = float.Parse(_message.Split()[0].Replace('.', ','));
-            PlatformMoveOnLine.powerR = float.Parse(_message.Split()[1].Replace('.', ','));
+            _isMessage = false;
+            _messageReciver = JsonConvert.DeserializeObject<MessageReciver>(_message);
+            PlatformMoveOnLine.powerL = (float)_messageReciver.PowerL;
+            PlatformMoveOnLine.powerR = (float)_messageReciver.PowerR;
+            PlatformMoveInMaze.powerL = (float)_messageReciver.PowerL;
+            PlatformMoveInMaze.powerR = (float)_messageReciver.PowerR;
+            PlatformMoveInMaze.isBrake = _messageReciver.IsBrake;
+            if (_messageReciver.IsBrake)
+                Debug.Log(_messageReciver.IsBrake);
+
+            //PlatformMoveOnLine.powerL = float.Parse(_message.Split()[0].Replace('.', ','));
+            //PlatformMoveOnLine.powerR = float.Parse(_message.Split()[1].Replace('.', ','));
+            //PlatformMoveInMaze.powerL = float.Parse(_message.Split()[0].Replace('.', ','));
+            //PlatformMoveInMaze.powerR = float.Parse(_message.Split()[1].Replace('.', ','));
+            //PlatformMoveInMaze.isBrake = bool.Parse(_message.Split()[2]);
         }
     }
 }
