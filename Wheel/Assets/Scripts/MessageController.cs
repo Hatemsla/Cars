@@ -14,13 +14,13 @@ public class MessageController : MonoBehaviour
     public GameObject canvas;
     public GameObject platform;
 
-    [SerializeField] private InputField speedField;
-    [SerializeField] private InputField timeField;
+    [SerializeField] private InputField _speedField;
+    [SerializeField] private InputField _timeField;
     [SerializeField] private ToggleGroup toggleGroupRL;
-    [SerializeField] private ToggleGroup toggleGroupFB;
-    [SerializeField] private Button addPanelButton;
-    [SerializeField] private Toggle[] toggleRL;
-    [HideInInspector] public Toggle toggleFB;
+    [SerializeField] private ToggleGroup _toggleGroupFb;
+    [SerializeField] private Button _addPanelButton;
+    [SerializeField] private Toggle[] _toggleRl;
+    [HideInInspector] public Toggle toggleFb;
 
     private Transform _frontRightTransform;
     private Transform _frontLeftTransform;
@@ -28,7 +28,7 @@ public class MessageController : MonoBehaviour
     private Transform _rearLeftTransform;
     private float _posSettingsPanelTop;
     private float _posSettingsPanelBottom;
-    private float _offsetPanelTop = 320;
+    private const float _offsetPanelTop = 320;
     private Wheels _wheels;
 
     [System.Obsolete]
@@ -56,14 +56,14 @@ public class MessageController : MonoBehaviour
     {
         var RightWheels = prefabRightWheels.GetComponent(typeof(Wheels));
         var LeftWheels = prefabLeftWheels.GetComponent(typeof(Wheels));
-        var toggleRLIsOn = new bool[toggleRL.Length];
-        toggleFB = toggleGroupFB.ActiveToggles().FirstOrDefault();
-        for(int i = 0; i < toggleRL.Length; i++)
+        var toggleRLIsOn = new bool[_toggleRl.Length];
+        toggleFb = _toggleGroupFb.ActiveToggles().FirstOrDefault();
+        for(int i = 0; i < _toggleRl.Length; i++)
         {
-            toggleRLIsOn[i] = toggleRL[i].isOn;
+            toggleRLIsOn[i] = _toggleRl[i].isOn;
         }
-        RightWheels.SendMessage("moveRightWheels", new object[] { speedField.text, timeField.text, toggleFB.GetComponentInChildren<Text>().text, toggleRLIsOn, platform }, SendMessageOptions.DontRequireReceiver);
-        LeftWheels.SendMessage("moveLeftWheels", new object[] { speedField.text, timeField.text, toggleFB.GetComponentInChildren<Text>().text, toggleRLIsOn, platform }, SendMessageOptions.DontRequireReceiver);
+        RightWheels.SendMessage("moveRightWheels", new object[] { _speedField.text, _timeField.text, toggleFb.GetComponentInChildren<Text>().text, toggleRLIsOn, platform }, SendMessageOptions.DontRequireReceiver);
+        LeftWheels.SendMessage("moveLeftWheels", new object[] { _speedField.text, _timeField.text, toggleFb.GetComponentInChildren<Text>().text, toggleRLIsOn, platform }, SendMessageOptions.DontRequireReceiver);
         //StartCoroutine(whs.moveRightWheels(new object[] { speedField.text, timeField.text, toggleFB.GetComponentInChildren<Text>().text, toggleRLIsOn, platform }));
     }
 

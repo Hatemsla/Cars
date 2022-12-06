@@ -6,18 +6,18 @@ using UnityEngine.UI;
 
 public class Wheel : MonoBehaviour
 {
-    [SerializeField] private Text Revs;
-    [SerializeField] private Text Distance;
-    [SerializeField] private InputField InputSpeed;
-    [SerializeField] private InputField InputTime;
-    [SerializeField] private GameObject PanelSettings;
-    [SerializeField] private GameObject StartBtn;
-    [SerializeField] private GameObject StopBtn;
-    [SerializeField] private GameObject OpenBtn;
-    [SerializeField] private Transform Disk;
-    [SerializeField] private Transform Rubber;
+    public Text revs;
+    public Text distanceText;
+    public InputField inputSpeed;
+    public InputField inputTime;
+    public GameObject panelSettings;
+    public GameObject startBtn;
+    public GameObject stopBtn;
+    public GameObject openBtn;
+    public Transform disk;
+    public Transform rubber;
 
-    private float _radius = 0.3f;
+    private const float radius = 0.3f;
     private float _timeCurrent;
     private float _timeStop;
     private float _speed;
@@ -28,7 +28,7 @@ public class Wheel : MonoBehaviour
 
     private void Start()
     {
-        _wheelLength = 2 * Mathf.PI * _radius;
+        _wheelLength = 2 * Mathf.PI * radius;
         _timeCurrent = 0;
         _timeStop = 0;
     }
@@ -50,16 +50,16 @@ public class Wheel : MonoBehaviour
 
         try
         {
-            _timeStop = Convert.ToSingle(InputTime.text);
-            _speed = Convert.ToSingle(InputSpeed.text);
+            _timeStop = Convert.ToSingle(inputTime.text);
+            _speed = Convert.ToSingle(inputSpeed.text);
         }
         catch(Exception ex)
         {
             Debug.Log(ex.Message);
         }
 
-        StartBtn.SetActive(false);
-        StopBtn.SetActive(true);
+        startBtn.SetActive(false);
+        stopBtn.SetActive(true);
 
         _moveWheelState = true;
     }
@@ -70,10 +70,10 @@ public class Wheel : MonoBehaviour
         {
             _distance += _speed * Time.deltaTime;
             _revsInSec = _distance / _wheelLength;
-            Distance.text = $"Дистанция: {_distance:f2} м";
-            Revs.text = $"Обороты: {_revsInSec:f2}";
-            Disk.Rotate(Vector3.right * _speed * Time.deltaTime * 10f);
-            Rubber.Rotate(Vector3.right * _speed * Time.deltaTime * 10f);
+            distanceText.text = $"Дистанция: {_distance:f2} м";
+            revs.text = $"Обороты: {_revsInSec:f2}";
+            disk.Rotate(Vector3.right * _speed * Time.deltaTime * 10f);
+            rubber.Rotate(Vector3.right * _speed * Time.deltaTime * 10f);
             transform.Translate(Vector3.forward * _speed * Time.deltaTime);
         }
 
@@ -83,19 +83,19 @@ public class Wheel : MonoBehaviour
     public void StopButton()
     {
         _moveWheelState = false;
-        StopBtn.SetActive(false);
-        StartBtn.SetActive(true);
+        stopBtn.SetActive(false);
+        startBtn.SetActive(true);
     }
 
     public void CloseButton()
     {
-        PanelSettings.SetActive(false);
-        OpenBtn.SetActive(true);
+        panelSettings.SetActive(false);
+        openBtn.SetActive(true);
     }
 
     public void OpenButton()
     {
-        PanelSettings.SetActive(true);
-        OpenBtn.SetActive(false);
+        panelSettings.SetActive(true);
+        openBtn.SetActive(false);
     }
 }

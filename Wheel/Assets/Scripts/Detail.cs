@@ -14,7 +14,7 @@ public class Detail : MonoBehaviour
     public IEnumerator MoveFromBeginToEnd()
     {
         float offset = 0;
-        Vector3 originPosition = transform.TransformDirection(transform.position);
+        Vector3 originPosition = transform.position;
         while (transform.position != points[1].position)
         {
             transform.position = Vector3.Lerp(originPosition, points[1].position, offset);

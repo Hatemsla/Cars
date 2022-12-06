@@ -7,8 +7,8 @@ using Assets.Scripts;
 
 public class DataController : MonoBehaviour
 {
-    public PlatformMoveOnLine PlatformMoveOnLine;
-    public PlatformMoveInMaze PlatformMoveInMaze;
+    public PlatformMoveOnLine platformMoveOnLine;
+    public PlatformMoveInMaze platformMoveInMaze;
 
     private WebSocket _ws;
     private MessageReciver _messageReciver;
@@ -42,9 +42,9 @@ public class DataController : MonoBehaviour
     {
         if (_isOpen)
         {
-            MessageSender sender = new MessageSender(PlatformMoveOnLine.IKsensors[0].grayScale, PlatformMoveOnLine.IKsensors[1].grayScale,
-                PlatformMoveInMaze.UZLeft.distance, PlatformMoveInMaze.UZSideLeft.distance, PlatformMoveInMaze.UZForward.distance,
-                PlatformMoveInMaze.UZSideRight.distance, PlatformMoveInMaze.UZRight.distance, PlatformMoveInMaze.isStart);
+            MessageSender sender = new MessageSender(platformMoveOnLine.IKsensors[0].grayScale, platformMoveOnLine.IKsensors[1].grayScale,
+                platformMoveInMaze.uzLeft.distance, platformMoveInMaze.uzSideLeft.distance, platformMoveInMaze.uzForward.distance,
+                platformMoveInMaze.uzSideRight.distance, platformMoveInMaze.uzRight.distance, platformMoveInMaze.isStart);
 
             string jsonSender = JsonConvert.SerializeObject(sender);
 
@@ -55,11 +55,11 @@ public class DataController : MonoBehaviour
         {
             _isMessage = false;
             _messageReciver = JsonConvert.DeserializeObject<MessageReciver>(_message);
-            PlatformMoveOnLine.powerL = (float)_messageReciver.PowerL;
-            PlatformMoveOnLine.powerR = (float)_messageReciver.PowerR;
-            PlatformMoveInMaze.powerL = (float)_messageReciver.PowerL;
-            PlatformMoveInMaze.powerR = (float)_messageReciver.PowerR;
-            PlatformMoveInMaze.isBrake = _messageReciver.IsBrake;
+            platformMoveOnLine.powerL = (float)_messageReciver.PowerL;
+            platformMoveOnLine.powerR = (float)_messageReciver.PowerR;
+            platformMoveInMaze.powerL = (float)_messageReciver.PowerL;
+            platformMoveInMaze.powerR = (float)_messageReciver.PowerR;
+            platformMoveInMaze.isBrake = _messageReciver.IsBrake;
             if (_messageReciver.IsBrake)
                 Debug.Log(_messageReciver.IsBrake);
 

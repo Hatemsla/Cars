@@ -19,8 +19,8 @@ public class IKSensor : MonoBehaviour
         }
     }
 
-    public float Convert(float value, float From1, float From2, float To1, float To2)
+    public float Convert(float value, float from1, float from2, float to1, float to2)
     {
-        return (value - From1) / (From2 - From1) * (To2 - To1) + To1;
+        return (value - from1) / (from2 - from1) * (to2 - to1) + to1;
     }
 }

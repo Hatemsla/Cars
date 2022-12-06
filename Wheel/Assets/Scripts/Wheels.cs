@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 public class Wheels : MonoBehaviour
 {
-    [SerializeField] private GameObject robot;
+    [SerializeField] private GameObject _robot;
 
     private float _timeStop;
     private float _speed;

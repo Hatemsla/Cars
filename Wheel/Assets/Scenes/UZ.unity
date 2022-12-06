@@ -230,6 +230,10 @@ PrefabInstance:
       propertyPath: distanceText
       value: 
       objectReference: {fileID: 8022543}
+    - target: {fileID: 2121094238, guid: 5cc818232d7cd974e80bb3f04b931b6b, type: 3}
+      propertyPath: _distanceText
+      value: 
+      objectReference: {fileID: 8022543}
     - target: {fileID: 2781289223451285491, guid: 5cc818232d7cd974e80bb3f04b931b6b,
         type: 3}
       propertyPath: m_RootOrder

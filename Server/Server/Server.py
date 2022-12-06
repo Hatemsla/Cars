@@ -9,6 +9,8 @@ min_forward_distance = 50
 min_side_distance = 20
 data_from_client = ''
 data_from_server = ''
+is_already_moving = False
+is_already_revers = False
 
 def get_data_from_client():
     global data_from_client
@@ -58,14 +60,16 @@ def stop(stop_time):
     data_from_client['IsMoving'] = True
 
 def stop_moving():
-    global data_from_client
+    global data_from_client, is_already_moving
     time.sleep(3)
     data_from_client["IsMoving"] = False
+    is_already_moving = False
 
 def stop_revers():
-    global data_from_client
+    global data_from_client, is_already_revers
     time.sleep(2)
     data_from_client['IsReversing'] = False
+    is_already_revers = False
 
 def maze_move():
     global data_from_client, power_l, power_r
@@ -119,7 +123,7 @@ def allow_data(msg):
     data_from_client['IsStart'] = d['IsStart']
 
 async def main(websocket):
-    global data_from_client, data_from_server, power_l, power_r
+    global data_from_client, data_from_server, power_l, power_r, is_already_moving, is_already_revers
     get_params()
     get_data_from_server()
     get_data_from_client()
@@ -127,17 +131,19 @@ async def main(websocket):
         msg = await websocket.recv()
         allow_data(msg)
         cheker(data_from_client)
-        if(data_from_client['IsMoving']):
+        if(data_from_client['IsMoving'] and not(is_already_moving)):
+            is_already_moving = True
             threading.Thread(target=stop_moving, args=()).start()
 
-        if(not(data_from_client['IsStop']) and data_from_client['IsReversing']):
+        if(not(data_from_client['IsStop']) and data_from_client['IsReversing'] and not(is_already_revers)):
+            is_already_revers = True
             threading.Thread(target=stop_revers, args=()).start()
 
         data_from_server['IsBrake'] = data_from_client['IsBrake']
         data_from_server['powerL'] = power_l
         data_from_server['powerR'] = power_r
         await websocket.send(json.dumps(data_from_server))
-        print(data_from_client['IsBrake'])
+        print(threading.active_count())
 
 start_server = websockets.serve(main, 'localhost', 8080)
 

@@ -11,7 +11,7 @@ public class CameraRotateAround : MonoBehaviour
     public float zoom = 0.25f; // чувствительность при увеличении, колесиком мышки
     public float zoomMax = 10; // макс. увеличение
     public float zoomMin = 3; // мин. увеличение
-    private float X, Y;
+    private float _x, _y;
 
     void Start()
     {
@@ -30,10 +30,10 @@ public class CameraRotateAround : MonoBehaviour
 
         if (Input.GetMouseButton(1))
         {
-            X = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivity;
-            Y += Input.GetAxis("Mouse Y") * sensitivity;
-            Y = Mathf.Clamp(Y, -limit, limit);
-            transform.localEulerAngles = new Vector3(-Y, X, 0);
+            _x = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivity;
+            _y += Input.GetAxis("Mouse Y") * sensitivity;
+            _y = Mathf.Clamp(_y, -limit, limit);
+            transform.localEulerAngles = new Vector3(-_y, _x, 0);
             transform.position = transform.localRotation * offset + target.position;
         }
     }

@@ -5,16 +5,16 @@ using UnityEngine.UI;
 
 public class MazeManager : MonoBehaviour
 {
-    public InputField PInput;
-    public InputField IInput;
-    public InputField DInput;
-    public InputField SpeedInput;
-    public Text PowerLText;
-    public Text PowerRText;
-    public Text ErrorText;
-    public Text PText;
-    public Text IText;
-    public Text DText;
+    public InputField proportionalInput;
+    public InputField integralInput;
+    public InputField derivativeInput;
+    public InputField speedInput;
+    public Text powerLText;
+    public Text powerRText;
+    public Text errorText;
+    public Text proportionalText;
+    public Text integralText;
+    public Text derivativeText;
     public PlatformMoveInMaze platform;
     public GameObject inputPanel;
     public GameObject outputPanel;
@@ -22,20 +22,20 @@ public class MazeManager : MonoBehaviour
     private void Start()
     {
         platform.isBrake = true;
-        PInput.text = 60.ToString();
-        IInput.text = 50.ToString();
-        DInput.text = 50.ToString();
-        SpeedInput.text = 300.ToString();
+        proportionalInput.text = 60.ToString();
+        integralInput.text = 50.ToString();
+        derivativeInput.text = 50.ToString();
+        speedInput.text = 300.ToString();
     }
 
     private void Update()
     {
-        PowerLText.text = platform.powerL.ToString();
-        PowerRText.text = platform.powerR.ToString();
-        ErrorText.text = platform.error.ToString();
-        PText.text = platform.proportionalGain.ToString();
-        IText.text = platform.integralGain.ToString();
-        DText.text = platform.derivativeGain.ToString();
+        powerLText.text = platform.powerL.ToString();
+        powerRText.text = platform.powerR.ToString();
+        errorText.text = platform.error.ToString();
+        proportionalText.text = platform.proportionalGain.ToString();
+        integralText.text = platform.integralGain.ToString();
+        derivativeText.text = platform.derivativeGain.ToString();
     }
 
     public void StartRide()
@@ -43,10 +43,10 @@ public class MazeManager : MonoBehaviour
         inputPanel.SetActive(false);
         outputPanel.SetActive(true);
 
-        float.TryParse(PInput.text, out platform.proportionalGain);
-        float.TryParse(IInput.text, out platform.integralGain);
-        float.TryParse(DInput.text, out platform.derivativeGain);
-        float.TryParse(SpeedInput.text, out platform.maxMotorTorque);
+        float.TryParse(proportionalInput.text, out platform.proportionalGain);
+        float.TryParse(integralInput.text, out platform.integralGain);
+        float.TryParse(derivativeInput.text, out platform.derivativeGain);
+        float.TryParse(speedInput.text, out platform.maxMotorTorque);
 
         platform.isStart = true;
         platform.isBrake = false;

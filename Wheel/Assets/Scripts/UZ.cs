@@ -14,7 +14,7 @@ public class UZ : MonoBehaviour
     public Button upBtn;
     public Button downBtn;
 
-    [SerializeField] private Text distanceText;
+    [SerializeField] private Text _distanceText;
 
     private Vector3 _direction;
 
@@ -23,6 +23,7 @@ public class UZ : MonoBehaviour
         AngleCalc(angle, rayCount);
         UZMove();
     }
+
     public void AngleCalc(float angle, int raysCount)
     {
         var rayOffset = angle / raysCount;
@@ -33,7 +34,7 @@ public class UZ : MonoBehaviour
         for (var i = -angle * 0.5f; i <= angle * 0.5f; i += rayOffset)
         {
             var direction = transform.TransformDirection(Quaternion.AngleAxis(i, transform.up) * transform.forward);
-            if (Physics.Raycast(transform.position, direction, out hit, 1000f, -1, QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(transform.position, direction, out hit, 40f, -1, QueryTriggerInteraction.Ignore))
             {
                 distance += hit.distance;
                 catchRaysCount++;
@@ -41,14 +42,14 @@ public class UZ : MonoBehaviour
             }
             else
             {
-                Debug.DrawLine(transform.position, transform.position + direction * 20, Color.white);
+                Debug.DrawLine(transform.position, transform.position + direction * 40, Color.white);
             }
         }
 
         if (catchRaysCount > 0)
             distance /= catchRaysCount;
 
-        distanceText.text = distance.ToString();
+        _distanceText.text = distance.ToString();
     }
 
     private void UZMove()

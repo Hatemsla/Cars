@@ -20,11 +20,11 @@ public class MoveTest : MonoBehaviour
     public WheelCollider[] leftWheelsCollider;
     public Transform[] rightWheelsTransform;
     public Transform[] leftWheelsTransform;
-    public UZSensor UZForward;
-    public UZSensor UZSideRight;
-    public UZSensor UZSideLeft;
-    public UZSensor UZRight;
-    public UZSensor UZLeft;
+    public UZSensor uzForward;
+    public UZSensor uzSideRight;
+    public UZSensor uzSideLeft;
+    public UZSensor uzRight;
+    public UZSensor uzLeft;
 
     private const float MaxForwardDistance = 40f;
     private const float MinSideDistance = 15f;
@@ -62,7 +62,7 @@ public class MoveTest : MonoBehaviour
 
         if (currentSpeed < maxSpeed)
         {
-            if (UZForward.distance >= MaxForwardDistance)
+            if (uzForward.distance >= MaxForwardDistance)
             {
                 foreach (WheelCollider wheel in rightWheelsCollider)
                 {
@@ -73,9 +73,9 @@ public class MoveTest : MonoBehaviour
                     wheel.motorTorque = maxMotorTorque * Time.deltaTime * _moveMultiplay;
                 }
             }
-            else if (UZLeft.distance < UZRight.distance)
+            else if (uzLeft.distance < uzRight.distance)
             {
-                if (UZSideLeft.distance < MinSideDistance)
+                if (uzSideLeft.distance < MinSideDistance)
                 {
                     foreach (WheelCollider wheel in rightWheelsCollider)
                     {
@@ -98,9 +98,9 @@ public class MoveTest : MonoBehaviour
                     }
                 }
             }
-            else if (UZLeft.distance > UZRight.distance)
+            else if (uzLeft.distance > uzRight.distance)
             {
-                if (UZSideLeft.distance < MinSideDistance)
+                if (uzSideLeft.distance < MinSideDistance)
                 {
                     foreach (WheelCollider wheel in rightWheelsCollider)
                     {
@@ -135,7 +135,7 @@ public class MoveTest : MonoBehaviour
                 }
             }
 
-            if (UZSideLeft.distance < MinSideDistance)
+            if (uzSideLeft.distance < MinSideDistance)
             {
                 foreach (WheelCollider wheel in rightWheelsCollider)
                 {
@@ -146,7 +146,7 @@ public class MoveTest : MonoBehaviour
                     wheel.motorTorque = speed;
                 }
             }
-            else if (UZSideRight.distance < MinSideDistance)
+            else if (uzSideRight.distance < MinSideDistance)
             {
                 foreach (WheelCollider wheel in rightWheelsCollider)
                 {

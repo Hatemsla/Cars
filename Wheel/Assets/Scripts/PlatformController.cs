@@ -6,7 +6,7 @@ public class PlatformController : MonoBehaviour
 {
     public float maxMotorTorque;
     public float maxSteeringAngle;
-    public List<AxleInfo> AxleInfos;
+    public List<AxleInfo> axleInfos;
     public Rigidbody rb;
     public Transform platform;
     public Transform wheelRightFront;
@@ -50,7 +50,7 @@ public class PlatformController : MonoBehaviour
         }
         else
         {
-            foreach(AxleInfo axleInfo in AxleInfos)
+            foreach(AxleInfo axleInfo in axleInfos)
             {
                 if (axleInfo.steering)
                 {

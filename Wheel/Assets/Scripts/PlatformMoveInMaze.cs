@@ -18,8 +18,8 @@ public class PlatformMoveInMaze : MonoBehaviour
     public float derivativeGain;
     public float powerR, powerL;
     public float steer;
-    public float forwardUZDistance, rightSideUZDistance, leftSideUZDistance,
-        rightUZDistance, leftUZDistance;
+    public float forwardUzDistance, rightSideUzDistance, leftSideUzDistance,
+        rightUzDistance, leftUzDistance;
     public float newError;
     public bool isBrake;
     public bool isStop;
@@ -30,30 +30,30 @@ public class PlatformMoveInMaze : MonoBehaviour
     public WheelCollider[] leftWheelsCollider;
     public Transform[] rightWheelsTransform;
     public Transform[] leftWheelsTransform;
-    public UZSensor UZForward;
-    public UZSensor UZSideRight;
-    public UZSensor UZSideLeft;
-    public UZSensor UZRight;
-    public UZSensor UZLeft;
+    public UZSensor uzForward;
+    public UZSensor uzSideRight;
+    public UZSensor uzSideLeft;
+    public UZSensor uzRight;
+    public UZSensor uzLeft;
 
     private const float MinForwardDistance = 50f;
     private const float MinSideDistance = 20f;
-    private float _timeToStop = 4f;
+    private const float timeToStop = 4f;
     private float _currentStopTime = 0;
     private float _reversCounter = 0;
-    private float _reversFor = 2f;
-    public float _movingCounter = 0;
-    private float _movingFor = 3f;
+    private const float reversFor = 2f;
+    private float _movingCounter = 0;
+    private const float movingFor = 3f;
 
     private void Update()
     {
         UpdateAllWheelPose();
 
-        forwardUZDistance = UZForward.distance;
-        leftSideUZDistance = UZSideLeft.distance;
-        rightSideUZDistance = UZSideRight.distance;
-        leftUZDistance = UZLeft.distance;
-        rightUZDistance = UZRight.distance;
+        forwardUzDistance = uzForward.distance;
+        leftSideUzDistance = uzSideLeft.distance;
+        rightSideUzDistance = uzSideRight.distance;
+        leftUzDistance = uzLeft.distance;
+        rightUzDistance = uzRight.distance;
     }
 
     private void FixedUpdate()
@@ -62,14 +62,14 @@ public class PlatformMoveInMaze : MonoBehaviour
         RobotMove();
         Brake();
 
-        if(_currentStopTime <= _timeToStop)
+        if(_currentStopTime <= timeToStop)
             _currentStopTime += Time.deltaTime;
         else
             isStop = false;
 
         if (isMoving)
         {
-            if(_movingCounter <= _movingFor)
+            if(_movingCounter <= movingFor)
                 _movingCounter += Time.deltaTime;
             else
             {
@@ -81,7 +81,7 @@ public class PlatformMoveInMaze : MonoBehaviour
         if (!isStop && isReversing)
         {
             _reversCounter += Time.deltaTime;
-            if(_reversCounter >= _reversFor)
+            if(_reversCounter >= reversFor)
             {
                 _reversCounter = 0;
                 isReversing = false;
@@ -109,14 +109,14 @@ public class PlatformMoveInMaze : MonoBehaviour
 
         if (isStart)
         {
-            if (UZForward.distance < 5 && !isReversing)
+            if (uzForward.distance < 5 && !isReversing)
             {
                 isReversing = true;
                 powerL = -700;
                 powerR = -700;
             }
-            else if (!isReversing && (UZForward.distance < 15 || UZSideLeft.distance < 10 || 
-                UZSideRight.distance < 10 || UZLeft.distance < 5 || UZRight.distance < 5))
+            else if (!isReversing && (uzForward.distance < 15 || uzSideLeft.distance < 10 || 
+                uzSideRight.distance < 10 || uzLeft.distance < 5 || uzRight.distance < 5))
             {
                 if (!isStop && !isMoving)
                 {
@@ -127,32 +127,32 @@ public class PlatformMoveInMaze : MonoBehaviour
 
             if (!isReversing)
             {
-                if (UZForward.distance > MinForwardDistance)
+                if (uzForward.distance > MinForwardDistance)
                 {
-                    if (UZSideLeft.distance < MinSideDistance || UZSideRight.distance < MinSideDistance)
-                        CalcPID(UZSideLeft.distance, UZSideRight.distance);
+                    if (uzSideLeft.distance < MinSideDistance || uzSideRight.distance < MinSideDistance)
+                        CalcPID(uzSideLeft.distance, uzSideRight.distance);
                     else
                         CalcPID(0, 0);
                 }
-                else if (UZLeft.distance > UZRight.distance || UZLeft.distance < UZRight.distance)
+                else if (uzLeft.distance > uzRight.distance || uzLeft.distance < uzRight.distance)
                 {
-                    if (UZSideLeft.distance < MinSideDistance || UZSideRight.distance < MinSideDistance)
-                        CalcPID(UZSideLeft.distance, UZSideRight.distance);
+                    if (uzSideLeft.distance < MinSideDistance || uzSideRight.distance < MinSideDistance)
+                        CalcPID(uzSideLeft.distance, uzSideRight.distance);
                     else
-                        CalcPID(UZLeft.distance, UZRight.distance);
+                        CalcPID(uzLeft.distance, uzRight.distance);
                 }
                 else
-                    CalcPID(UZLeft.distance, UZRight.distance);
+                    CalcPID(uzLeft.distance, uzRight.distance);
 
-                if (UZSideLeft.distance < MinSideDistance || UZSideRight.distance < MinSideDistance)
-                    CalcPID(UZSideLeft.distance, UZSideRight.distance);
+                if (uzSideLeft.distance < MinSideDistance || uzSideRight.distance < MinSideDistance)
+                    CalcPID(uzSideLeft.distance, uzSideRight.distance);
 
                 RobotMove();
             }
         }
     }
 
-    public IEnumerator Stop(float stopTime)
+    private IEnumerator Stop(float stopTime)
     {
         _currentStopTime = 0;
         isBrake = true;
@@ -190,7 +190,7 @@ public class PlatformMoveInMaze : MonoBehaviour
     /// <summary>
     /// Обновление вращения всех колес
     /// </summary>
-    void UpdateAllWheelPose()
+    private void UpdateAllWheelPose()
     {
         UpdateWheelPose(rightWheelsCollider[0], rightWheelsTransform[0]);
         UpdateWheelPose(rightWheelsCollider[1], rightWheelsTransform[1]);
@@ -203,7 +203,7 @@ public class PlatformMoveInMaze : MonoBehaviour
     /// </summary>
     /// <param name="wheelCollider"></param>
     /// <param name="wheelTransform"></param>
-    void UpdateWheelPose(WheelCollider wheelCollider, Transform wheelTransform)
+    private void UpdateWheelPose(WheelCollider wheelCollider, Transform wheelTransform)
     {
         Vector3 pos = wheelTransform.position;
         Quaternion rot = wheelTransform.rotation;

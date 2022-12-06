@@ -5,12 +5,12 @@ using UnityEngine;
 public class CameraRotate : MonoBehaviour
 {
     public Camera[] allCameras;
-    public Transform[] cameraTransofrms;
+    public Transform[] cameraTransforms;
     public float rotationStep = 2f;
 
     private int _k = 0;
-    private float _maxRotationXAngle = 45f;
-    private float _minRotationXAngle = -45f;
+    private const float maxRotationXAngle = 45f;
+    private const float minRotationXAngle = -45f;
 
     private float[] _currentRotationX;
 
@@ -43,7 +43,7 @@ public class CameraRotate : MonoBehaviour
         {
             ref float currentRotation = ref _currentRotationX[_k];
 
-            currentRotation = Mathf.Clamp(currentRotation - rotationStep, _minRotationXAngle, _maxRotationXAngle);
+            currentRotation = Mathf.Clamp(currentRotation - rotationStep, minRotationXAngle, maxRotationXAngle);
             SetLocalX(_k, currentRotation);
         }
 
@@ -51,16 +51,16 @@ public class CameraRotate : MonoBehaviour
         {
             ref float currentRotation = ref _currentRotationX[_k];
 
-            currentRotation = Mathf.Clamp(currentRotation + rotationStep, _minRotationXAngle, _maxRotationXAngle);
+            currentRotation = Mathf.Clamp(currentRotation + rotationStep, minRotationXAngle, maxRotationXAngle);
             SetLocalX(_k, currentRotation);
         }
     }
 
     private void SetLocalX(int cameraIndex, float value)
     {
-        Vector3 resultLocalRot = cameraTransofrms[cameraIndex].transform.localEulerAngles;
+        Vector3 resultLocalRot = cameraTransforms[cameraIndex].transform.localEulerAngles;
         resultLocalRot.x = value;
 
-        cameraTransofrms[_k].transform.localEulerAngles = resultLocalRot;
+        cameraTransforms[_k].transform.localEulerAngles = resultLocalRot;
     }
 }

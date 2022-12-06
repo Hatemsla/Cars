@@ -7,16 +7,16 @@ public class IK : MonoBehaviour
 {
     public float speed = 10f;
     public GameObject obj;
-    public Image Image;
-    public Text Shade;
+    public Image image;
+    public Text shade;
     public Button leftButton;
     public Button rightButton;
 
-    private Vector3 _IKMoveDirection;
+    private Vector3 _ikMoveDirection;
     private bool _isLeftButtonDown;
     private bool _isRightButtonDown;
-    private const float MAX_LEFT_POSITION = -2;
-    private const float MAX_RIGHT_POSITION = 5;
+    private const float maxLeftPosition = -2;
+    private const float maxRightPosition = 5;
 
     private void FixedUpdate() 
     {
@@ -29,8 +29,8 @@ public class IK : MonoBehaviour
             color = texture.GetPixelBilinear(hit.textureCoord2.x, hit.textureCoord2.y);
             Debug.DrawLine(obj.transform.position, hit.point);
         }
-        Image.color = color;
-        Shade.text = Convert(color.grayscale, 0, 1, 4095, 0).ToString();
+        image.color = color;
+        shade.text = Convert(color.grayscale, 0, 1, 4095, 0).ToString();
         CheckMove();
     }
 
@@ -41,38 +41,38 @@ public class IK : MonoBehaviour
 
     private void IKMove()
     {
-        transform.Translate(_IKMoveDirection * speed * Time.deltaTime);
+        transform.Translate(_ikMoveDirection * speed * Time.deltaTime);
     }
 
     public void RightButtonDown()
     {
-        _IKMoveDirection = Vector3.forward;
+        _ikMoveDirection = Vector3.forward;
         _isLeftButtonDown = false;
         _isRightButtonDown = true;
     }
 
     public void LeftButtonDown()
     {
-        _IKMoveDirection = Vector3.back;
+        _ikMoveDirection = Vector3.back;
         _isLeftButtonDown = true;
         _isRightButtonDown = false;
     }
 
     public void ButtonUp()
     {
-        _IKMoveDirection = Vector3.zero;
+        _ikMoveDirection = Vector3.zero;
     }
 
     private void CheckMove()
     {
-        if (transform.position.x < MAX_LEFT_POSITION)
+        if (transform.position.x < maxLeftPosition)
         {
             if (_isRightButtonDown)
             {
                 IKMove();
             }
         }
-        else if (transform.position.x >= MAX_RIGHT_POSITION)
+        else if (transform.position.x >= maxRightPosition)
         {
             if (_isLeftButtonDown)
             {

@@ -10,16 +10,16 @@ public class LineManager : MonoBehaviour
     public Camera platformCamera;
     public Renderer mapMaterial;
     public Dropdown lineMaps;
-    public InputField PInput;
-    public InputField IInput;
-    public InputField DInput;
-    public InputField PowerInput;
-    public Text PowerLText;
-    public Text PowerRText;
-    public Text ErrorText;
-    public Text PText;
-    public Text IText;
-    public Text DText;
+    public InputField proportionalInput;
+    public InputField integralInput;
+    public InputField derivativeInput;
+    public InputField powerInput;
+    public Text powerLText;
+    public Text powerRText;
+    public Text errorText;
+    public Text proportionalText;
+    public Text integralText;
+    public Text derivativeText;
     public PlatformMoveOnLine platform;
     public GameObject inputPanel;
     public GameObject outputPanel;
@@ -44,12 +44,12 @@ public class LineManager : MonoBehaviour
 
     private void Update()
     {
-        PowerLText.text = platform.powerL.ToString();
-        PowerRText.text = platform.powerR.ToString();
-        ErrorText.text = platform.error.ToString();
-        PText.text = platform.proportionalGain.ToString();
-        IText.text = platform.integralGain.ToString();
-        DText.text = platform.derivativeGain.ToString();
+        powerLText.text = platform.powerL.ToString();
+        powerRText.text = platform.powerR.ToString();
+        errorText.text = platform.error.ToString();
+        proportionalText.text = platform.proportionalGain.ToString();
+        integralText.text = platform.integralGain.ToString();
+        derivativeText.text = platform.derivativeGain.ToString();
     }
 
     public void ChangeLineMap(int value)
@@ -67,10 +67,10 @@ public class LineManager : MonoBehaviour
         outputPanel.SetActive(true);
         platformCamera.enabled = true;
 
-        float.TryParse(PInput.text, out platform.proportionalGain);
-        float.TryParse(IInput.text, out platform.integralGain);
-        float.TryParse(DInput.text, out platform.derivativeGain);
-        float.TryParse(PowerInput.text, out platform.maxMotorTorque);
+        float.TryParse(proportionalInput.text, out platform.proportionalGain);
+        float.TryParse(integralInput.text, out platform.integralGain);
+        float.TryParse(derivativeInput.text, out platform.derivativeGain);
+        float.TryParse(powerInput.text, out platform.maxMotorTorque);
 
         platform.maxMotorTorque *= 100;
 

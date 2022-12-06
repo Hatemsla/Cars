@@ -362,8 +362,6 @@
 "Assets/Scripts/PlatformMoveInMaze.cs"
 "Assets/Scripts/PlatformMoveOnLine.cs"
 "Assets/Scripts/Point.cs"
-"Assets/Scripts/TestClient.cs"
-"Assets/Scripts/UIManagerPlatform.cs"
 "Assets/Scripts/UZ.cs"
 "Assets/Scripts/UZSensor.cs"
 "Assets/Scripts/Wheel.cs"
